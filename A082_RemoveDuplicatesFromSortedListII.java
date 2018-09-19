@@ -30,15 +30,15 @@ public class A082_RemoveDuplicatesFromSortedListII {
         dummy.next = head;
         ListNode prevPtr = dummy;
         ListNode curPtr = prevPtr.next;
-        boolean find = false;
         while (curPtr != null) {
-            while (curPtr.next != null && curPtr.val == curPtr.next.val) {
-                    curPtr = curPtr.next;
-                    find = true;
-            }
-            if (find) {
+            //use an if statement instead of a boolean variable, to optimize efficiency
+            if (curPtr.next != null && curPtr.val == curPtr.next.val) {
+                //find all duplicates until we find difference
+                while (curPtr.next != null && curPtr.val == curPtr.next.val) {
+                        curPtr = curPtr.next;
+                }
+                //delete all duplicate nodes
                 prevPtr.next = curPtr.next;
-                find = false;
             }
             else {
                 prevPtr = curPtr;

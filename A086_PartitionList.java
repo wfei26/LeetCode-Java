@@ -32,18 +32,21 @@ public class A086_PartitionList {
 
         ListNode dummyLeft = new ListNode(-1);
         ListNode dummyRight = new ListNode(-1);
-        ListNode curLeft = dummyLeft, curRight = dummyRight, curHead = head;
-        while (curHead != null) {
-            if (curHead.val < x) {
-                curLeft.next = curHead;
+        ListNode curLeft = dummyLeft, curRight = dummyRight, curPtr = head;
+        while (curPtr != null) {
+            //small elements put in left list
+            if (curPtr.val < x) {
+                curLeft.next = curPtr;
                 curLeft = curLeft.next;
             }
+            //greater or equal elements put in right list
             else {
-                curRight.next = curHead;
+                curRight.next = curPtr;
                 curRight = curRight.next;
             }
-            curHead = curHead.next;
+            curPtr = curPtr.next;
         }
+        //concat left and right list
         curLeft.next = dummyRight.next;
         //Very important!!! Set last node.next = null to avoid cycling linked list
         //Eg: 5->6->1->2, it will generate 1->2->5->6->1... without this step
