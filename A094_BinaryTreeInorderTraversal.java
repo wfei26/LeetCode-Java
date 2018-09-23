@@ -1,12 +1,10 @@
-import jdk.nashorn.api.tree.Tree;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-public class A94_BinaryTreeInorderTraversal {
+public class A094_BinaryTreeInorderTraversal {
     public static void main(String[] args) {
-        A94_BinaryTreeInorderTraversal solution = new A94_BinaryTreeInorderTraversal();
+        A094_BinaryTreeInorderTraversal solution = new A094_BinaryTreeInorderTraversal();
         int[] myInputs = {1, 2, 3, 5, 6, 8};
         TreeNode myTree = solution.sortedArrayToBST(myInputs);
         List<Integer> myResult = solution.inorderTraversal(myTree);
