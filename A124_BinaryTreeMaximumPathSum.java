@@ -2,7 +2,7 @@ public class A124_BinaryTreeMaximumPathSum {
     int maxSum = Integer.MIN_VALUE;
     public static void main(String[] args) {
         A124_BinaryTreeMaximumPathSum solution = new A124_BinaryTreeMaximumPathSum();
-        int[] myInputs = {7,9,10,15,20};
+        int[] myInputs = {-5,7,9,10,15,20};
         TreeNode myTree = solution.sortedArrayToBST(myInputs);
         int myResult = solution.maxPathSum(myTree);
         System.out.println(myResult);

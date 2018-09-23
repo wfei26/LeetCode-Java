@@ -1,7 +1,7 @@
 public class A104_MaximumDepthOfBinaryTree {
     public static void main (String[] args) {
         A104_MaximumDepthOfBinaryTree solution = new A104_MaximumDepthOfBinaryTree();
-        int[] myInputs = {-10,-3,0,5,9};
+        int[] myInputs = {1,2,3,5,6,8};
         TreeNode myTree = solution.sortedArrayToBST(myInputs);
         int myResult = solution.maxDepth(myTree);
         System.out.println(myResult);
