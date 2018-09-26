@@ -1,7 +1,7 @@
 public class A069_SqrtX {
     public static void main(String[] args) {
         A069_SqrtX solution = new A069_SqrtX();
-        int input = 2;
+        int input = 8;
         int output = solution.mySqrt(input);
         System.out.println(output);
     }
