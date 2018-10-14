@@ -1,5 +1,7 @@
 import java.lang.reflect.Array;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class A242_ValidAnagram {
     public static void main(String[] args) {
@@ -19,15 +21,20 @@ public class A242_ValidAnagram {
         if (s.length() != t.length()) {
             return false;
         }
-        char[] strArr1 = s.toCharArray();
-        char[] strArr2 = t.toCharArray();
-        Arrays.sort(strArr1);
-        Arrays.sort(strArr2);
-        for (int i = 0; i < strArr1.length && i < strArr2.length; i++) {
-            if (strArr1[i] != strArr2[i]) {
+
+        int[] map = new int[26];
+        for (char c : s.toCharArray()) {
+            map[c - 'a']++;
+        }
+        for (char c : t.toCharArray()) {
+            map[c - 'a']--;
+        }
+        for (int frequency : map) {
+            if (frequency != 0) {
                 return false;
             }
         }
+
         return true;
     }
 }
