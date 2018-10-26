@@ -28,15 +28,21 @@ public class A100_SameTree {
     }
 
     public boolean isSameTree(TreeNode p, TreeNode q) {
+        //must satisfy both of null conditions
         if (p == null && q == null) {
             return true;
         }
+        //if one node is null, but the other one is not null, return false
         if (p == null || q == null) {
             return false;
         }
+        //if two nodes are same, recursively comparing both of left nodes and right nodes
         if (p.val == q.val) {
             return isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
         }
+        //completed traversing for one tree, but another tree still have extra nodes
+        //then default return false
         return false;
     }
+
 }

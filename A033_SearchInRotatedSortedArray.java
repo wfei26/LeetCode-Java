@@ -14,20 +14,23 @@ public class A033_SearchInRotatedSortedArray {
 
         int left = 0, right = nums.length - 1;
         while (left < right) {
-            int mid = (right + left) / 2;
-            if (nums[mid] == target) {
+            int mid = left + (right - left) / 2;
+            if (target == nums[mid]) {
                 return mid;
             }
+            //if left part is monotonically increasing
             if (nums[left] <= nums[mid]) {
-                if (nums[left] <= target && nums[mid] > target) {
+                if (nums[left] <= target && target < nums[mid]) {
                     right = mid - 1;
                 }
                 else {
                     left = mid + 1;
                 }
             }
+
+            //if right part is monotonically increasing
             else {
-                if (nums[mid] < target && nums[right] >= target) {
+                if (nums[mid] < target && target <= nums[right]) {
                     left = mid + 1;
                 }
                 else {
@@ -35,7 +38,6 @@ public class A033_SearchInRotatedSortedArray {
                 }
             }
         }
-
         if (nums[left] == target) {
             return left;
         }
