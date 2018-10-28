@@ -13,42 +13,52 @@ public class A394_DecodeString {
             return s;
         }
 
-        //store result string
-        Stack<Integer> countStack = new Stack<>();
         //store number of repeat times
+        Stack<Integer> countStack = new Stack<>();
+
+        //store result string
         //use stack because we need to deal with nested bracket
         //eg: 2[3[ab]2[cd]]
         Stack<String> resultStack = new Stack<>();
+
         char[] strArr = s.toCharArray();
         int count = 0;
-        String curResult = "";
+        StringBuilder curStr = new StringBuilder();
+
+        //we have four different cases: digit, '[', ']', alphabet
         for (int i = 0; i < s.length(); i++) {
             //calculate repeat number
             if (Character.isDigit(strArr[i])) {
                 count = count * 10 + (strArr[i] - '0');
             }
+
             //push previous decoded string into stack
             else if (strArr[i] == '[') {
                 countStack.push(count);
-                resultStack.push(curResult);
+                resultStack.push(curStr.toString());
+                //DO NOT FORGET to reset count and curResult
                 count = 0;
-                curResult = "";
+                //REMEMBER: API to clean StringBuilder object: .setLength(0)
+                curStr.setLength(0);
             }
+
             //start to decode current string
             else if (strArr[i] == ']') {
                 int repeat = countStack.pop();
-                StringBuilder temp = new StringBuilder(resultStack.pop());
+                StringBuilder prefixStr = new StringBuilder(resultStack.pop());
                 //concat new repeated string to previous result string
                 for (int j = 0; j < repeat; j++) {
-                    temp.append(curResult);
+                    prefixStr.append(curStr);
                 }
-                curResult = temp.toString();
+                //update result string
+                curStr = prefixStr;
             }
+
             //normal character, concat to current string, preparing for decoding
             else {
-                curResult += strArr[i];
+                curStr.append(strArr[i]);
             }
         }
-        return curResult;
+        return curStr.toString();
     }
 }
