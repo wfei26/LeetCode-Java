@@ -5,8 +5,8 @@ public class A020_ValidParentheses {
     public static void main(String[] args) {
         A020_ValidParentheses solution = new A020_ValidParentheses();
         String input = "(){[]{()}}";
-        //boolean myResult = solution.isValid(input);
-        boolean myResult = solution.isValidSimplify(input);
+        boolean myResult = solution.isValid(input);
+        //boolean myResult = solution.isValidSimplify(input);
         if (myResult) {
             System.out.println("true");
         }
@@ -16,22 +16,28 @@ public class A020_ValidParentheses {
     }
 
     public boolean isValid(String s) {
-        Stack<Character> myStack = new Stack();
+        if (s.length() == 0) {
+            return true;
+        }
+
+        Stack<Character> stack = new Stack<>();
         for (char c : s.toCharArray()) {
             if (c == '(') {
-                myStack.push(')');
+                stack.push(')');
             }
             else if (c == '[') {
-                myStack.push(']');
+                stack.push(']');
             }
             else if (c == '{') {
-                myStack.push('}');
+                stack.push('}');
             }
-            else if (myStack.isEmpty() || myStack.pop() != c) {
-                return false;
+            else {
+                if (stack.isEmpty() || stack.pop() != c) {
+                    return false;
+                }
             }
         }
-        return myStack.isEmpty();
+        return stack.isEmpty();
     }
 
     public boolean isValidSimplify(String s) {

@@ -1,4 +1,7 @@
+import com.sun.jdi.IntegerValue;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class A056_MergeIntervals {
@@ -17,22 +20,32 @@ public class A056_MergeIntervals {
             return intervals;
         }
 
-        intervals.sort((a1, a2) -> Integer.compare(a1.start, a2.start));
         List<Interval> resultList = new ArrayList<>();
-        int start = intervals.get(0).start;
-        int end = intervals.get(0).end;
+        //sort intervals by starting time
+        //CAUTION: it is list sorting at here, not array sorting
+        intervals.sort((a, b) -> (a.start - b.start));
+        int prevStart = intervals.get(0).start, prevEnd = intervals.get(0).end;
+
+        //start from the second interval, iteratively compare whether current starting time
+        //is greater than previous ending time
+        //if so, add previous interval to result list
+        //else, merge two intervals by selecting the first starting time and max ending time between them
         for (int i = 1; i < intervals.size(); i++) {
-            if (intervals.get(i).start > end) {
-                Interval newInterval = new Interval(start, end);
-                resultList.add(newInterval);
-                start = intervals.get(i).start;
-                end = intervals.get(i).end;
+            //add valid interval to result list
+            if (intervals.get(i).start > prevEnd) {
+                resultList.add(new Interval(prevStart, prevEnd));
+
+                //update prevStart and prevStart after adding the previous valid interval
+                prevStart = intervals.get(i).start;
+                prevEnd = intervals.get(i).end;
             }
+            //merge two intervals
             else {
-                end = Math.max(end, intervals.get(i).end);
+                prevEnd = Math.max(intervals.get(i).end, prevEnd);
             }
         }
-        resultList.add(new Interval(start, end));
+        //DO NOT FORGET to add the last interval after the loop end
+        resultList.add(new Interval(prevStart, prevEnd));
         return resultList;
     }
 
@@ -58,19 +71,6 @@ public class A056_MergeIntervals {
             }
         }
         System.out.println("]");
-    }
-
-    public static class Interval {
-        int start;
-        int end;
-        Interval() {
-            start = 0;
-            end = 0;
-        }
-        Interval(int s, int e) {
-            start = s;
-            end = e;
-        }
     }
  }
 

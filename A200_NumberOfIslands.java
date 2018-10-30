@@ -15,10 +15,12 @@ public class A200_NumberOfIslands {
         }
 
         int result = 0;
-        for (int i = 0; i < grid.length; i++) {
-            for (int j = 0; j < grid[i].length; j++) {
+        int n = grid.length;
+        int m = grid[0].length;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
                 if (grid[i][j] == '1') {
-                    dfs(i, j, grid);
+                    dfs(grid, i, j);
                     result++;
                 }
             }
@@ -26,16 +28,17 @@ public class A200_NumberOfIslands {
         return result;
     }
 
-    public void dfs(int row, int col, char[][] grid) {
+    public void dfs(char[][] board, int rowNum, int colNum) {
         //recursion exit: DO NOT FORGET to add condition grid[r][c] == '0'!
-        if (row < 0 || col < 0 || row >= grid.length || col >= grid[0].length || grid[row][col] == '0') {
+        //and MUST add this condition at the end of if statement because we need to check if array index is still in the boundary
+        if (rowNum > board.length - 1|| rowNum < 0 || colNum > board[0].length - 1 || colNum < 0 || board[rowNum][colNum] == '0' ) {
             return;
         }
         //mark visited points to 0 to avoid trace back
-        grid[row][col] = '0';
-        dfs(row + 1, col, grid);
-        dfs(row, col + 1, grid);
-        dfs(row - 1, col, grid);
-        dfs(row, col - 1, grid);
+        board[rowNum][colNum] = '0';
+        dfs(board, rowNum + 1, colNum);
+        dfs(board, rowNum - 1, colNum);
+        dfs(board, rowNum, colNum + 1);
+        dfs(board, rowNum, colNum - 1);
     }
 }
