@@ -26,6 +26,7 @@ public class A141_LinkedListCycle {
         if (head == null) {
             return false;
         }
+
         ListNode slow = head;
         ListNode fast = head;
         while (fast != null && fast.next != null) {

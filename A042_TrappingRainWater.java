@@ -18,11 +18,15 @@ public class A042_TrappingRainWater {
         int rightMax = Integer.MIN_VALUE;
 
         //use two pointers to scan the entire array until they meet with each other
+        //Key points: any bars in the middle of leftMax bar and rightMax bar will not influence
+        // how much water can current position trap
         for (int left = 0, right = height.length - 1; left <= right;) {
             leftMax = Math.max(leftMax, height[left]);
             rightMax = Math.max(rightMax, height[right]);
+
+            //how much can current position trap depends on the shorter bar (木桶原理)
             if (leftMax < rightMax) {
-                //DO NOT FORGET to minus height of current position
+                //DO NOT FORGET to subtract bar height of current position
                 result += leftMax - height[left];
                 left++;
             }
