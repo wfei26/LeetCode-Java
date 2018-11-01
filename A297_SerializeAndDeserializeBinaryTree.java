@@ -50,6 +50,7 @@ public class A297_SerializeAndDeserializeBinaryTree {
         return result.substring(0, result.length() - 1);
     }
 
+    //preorder traversal template
     public void serializeHelper(TreeNode curNode, StringBuilder result) {
         //recursion exit
         if (curNode == null) {

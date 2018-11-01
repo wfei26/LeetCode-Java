@@ -8,7 +8,9 @@ public class A062_UniquePaths {
 
     public int uniquePaths(int m, int n) {
         int[][] dp = new int[m][n];
-        //initialize values of the first line and first column to 1
+
+        //DO NOT FORGET to initialize values of the first line and first column to 1
+        //Because we only have one way to reach these points, then we consider them as base cases
         for (int i = 0; i < m; i++) {
             dp[i][0] = 1;
         }
