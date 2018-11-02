@@ -3,7 +3,7 @@ import java.util.HashMap;
 public class A003_LongestSubstringWithoutRepeatingCharacters {
     public static void main(String[] args) {
         A003_LongestSubstringWithoutRepeatingCharacters solution = new A003_LongestSubstringWithoutRepeatingCharacters();
-        String myInput = "abba";
+        String myInput = "abcabcbb";
         int myResults = solution.lengthOfLongestSubstring(myInput);
         System.out.println(myResults);
     }
@@ -14,7 +14,8 @@ public class A003_LongestSubstringWithoutRepeatingCharacters {
         }
 
         int result = 0;
-        //key: every character; value: least recent index
+        //key: character
+        //value: least recent index
         HashMap<Character, Integer> map = new HashMap<>();
 
         //keep a sliding window from i to j, which stores the current max length
@@ -23,7 +24,9 @@ public class A003_LongestSubstringWithoutRepeatingCharacters {
             //if we find a duplicate element, do not add it into sliding window
             //but move left pointer forward
             //Also, compare with index of current left pointer, update the left pointer index
-            //or if new position is greater than current left pointer index
+            //if new position is greater than previous left pointer index
+            //otherwise, keep the previous left pointer index unchanged if previous is greater
+            //WARNING: ALWAYS use j as scanning pointer
             if (map.containsKey(s.charAt(j))) {
                 i = Math.max(i, map.get(s.charAt(j)) + 1);
             }

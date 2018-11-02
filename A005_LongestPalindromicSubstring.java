@@ -9,28 +9,35 @@ public class A005_LongestPalindromicSubstring {
     int start = 0, maxLength = 0;
     public String longestPalindrome(String s) {
         if (s == null || s.length() == 0) {
-            return s;
+            return "";
         }
 
+        //start from middle point, extend all possible palindromes and update max length
+        //we need to try every possible start point (or middle starting point) with
+        //both of odd length and even length palindrome strings
         for (int i = 0; i < s.length(); i++) {
-            //try odd length
             extendPalindrome(s, i, i);
-            //try even length
             extendPalindrome(s, i, i + 1);
         }
         return s.substring(start, start + maxLength);
     }
 
     public void extendPalindrome(String s, int left, int right) {
+        //WARNING: must use loop at here, not just if statement
         while (left >= 0 && right < s.length() && s.charAt(left) == s.charAt(right)) {
             left--;
             right++;
         }
+
+        //when we exit loop, the current character on left index and right index should not be included
+        //in current palindrome string, we we should subtract them
+        //i.e. start = left + 1, and curLen = r - l - 1
+        int curPalindromeLen = right - left - 1;
+
         //if we have longer palindrome, update globe results
-        int curPalinLen = right - left - 1;
-        if (maxLength < curPalinLen) {
+        if (curPalindromeLen > maxLength) {
             start = left + 1;
-            maxLength = curPalinLen;
+            maxLength = curPalindromeLen;
         }
     }
 }

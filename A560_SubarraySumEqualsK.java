@@ -3,7 +3,7 @@ import java.util.HashMap;
 public class A560_SubarraySumEqualsK {
     public static void main(String[] args) {
         A560_SubarraySumEqualsK solution = new A560_SubarraySumEqualsK();
-        int[] myInput = {1,1,1};
+        int[] myInput = {1,1,-1,1,-1,1,1};
         int target = 2;
         int myResult = solution.subarraySum(myInput, target);
         System.out.println(myResult);
@@ -15,15 +15,19 @@ public class A560_SubarraySumEqualsK {
         }
 
         int result = 0;
-        int sum = 0;
+        int preSum = 0;
+        //use a hash map to store preSum and its frequency, if map contains key of current preSum - k,
+        //then the original array must contain a subarray sum equals k
         HashMap<Integer, Integer> map = new HashMap<>();
+        //if preSum equals k, we will have key (preSum - k = 0), so must put(0, 1) as pre-processing
         map.put(0, 1);
         for (int i = 0; i < nums.length; i++) {
-            sum += nums[i];
-            if (map.containsKey(sum - k)) {
-                result += map.get(sum - k);
+            preSum += nums[i];
+            if (map.containsKey(preSum - k)) {
+                //remark: it will not have duplicate count of frequency
+                result += map.get(preSum - k);
             }
-            map.put(sum, map.getOrDefault(sum, 0) + 1);
+            map.put(preSum, map.getOrDefault(preSum, 0) + 1);
         }
         return result;
     }
