@@ -14,10 +14,12 @@ public class A011_ContainerWithMostWater {
         int result = 0;
         int n = height.length;
         //left pointer points to the left most bar, right pointer points to the right most bar
-        //Always move the pointer with shorter length
+        //Always move the pointer with shorter length, since how much water is depends on the short bar
+        //木桶原理
         for (int i = 0, j = n - 1; i < j;) {
+            //re-calculate area in every iteration
             result = Math.max(result, Math.min(height[i], height[j]) * (j - i));
-            //if the left bar length is smaller, move the left pointer by 1
+            //if the left bar length is shorter, move the left pointer by 1
             if (height[i] < height[j]) {
                 i++;
             }
