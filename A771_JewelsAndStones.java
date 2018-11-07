@@ -14,6 +14,7 @@ public class A771_JewelsAndStones {
             return 0;
         }
 
+        //just use hash map to store jewels, and find jewels in stones
         HashMap<Character, Integer> map = new HashMap<>();
         for (char c : J.toCharArray()) {
             map.put(c, 1);
