@@ -20,14 +20,14 @@ public class A049_GroupAnagrams {
             return results;
         }
 
+        //sort every string in the array, and then use map to check if
+        //current sorted string has already showed before
         HashMap<String, List<String>> map = new HashMap<>();
         for (int i = 0; i < strs.length; i++) {
             char[] strArr = strs[i].toCharArray();
             Arrays.sort(strArr);
             String key = new String(strArr);
-            if (!map.containsKey(key)) {
-                map.put(key, new ArrayList<>());
-            }
+            map.putIfAbsent(key, new ArrayList<>());
             map.get(key).add(strs[i]);
         }
 

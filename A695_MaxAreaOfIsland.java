@@ -29,6 +29,7 @@ public class A695_MaxAreaOfIsland {
         return maxArea;
     }
 
+    //similar to problem 200, only difference is that boundary check condition is the complement of that problem
     public int dfs(int row, int col, int[][] grid) {
         //when current position is in bound and current element is 1, add area by 1 and continue recursively
         //find other 1's, until all four directions reach 0, finally we get area of current island

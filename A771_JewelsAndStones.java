@@ -1,4 +1,4 @@
-import java.util.HashMap;
+import java.util.HashSet;
 
 public class A771_JewelsAndStones {
     public static void main(String[] args) {
@@ -14,15 +14,15 @@ public class A771_JewelsAndStones {
             return 0;
         }
 
-        //just use hash map to store jewels, and find jewels in stones
-        HashMap<Character, Integer> map = new HashMap<>();
+        //use set to store jewels, and find stones in set
+        HashSet<Character> set = new HashSet<>();
         for (char c : J.toCharArray()) {
-            map.put(c, 1);
+            set.add(c);
         }
 
         int count = 0;
-        for (char key : S.toCharArray()) {
-            if (map.containsKey(key)) {
+        for (char c : S.toCharArray()) {
+            if (set.contains(c)) {
                 count++;
             }
         }

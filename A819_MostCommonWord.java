@@ -29,6 +29,8 @@ public class A819_MostCommonWord {
         int maxCount = 0;
         HashMap<String, Integer> map = new HashMap<>();
         for (String word : words) {
+            //check if current word is ban word, if not, map.get(word)++ means freq++
+            //and update maxCount if necessary
             if (!banWords.contains(word)) {
                 map.put(word, map.getOrDefault(word, 0) + 1);
                 if (map.get(word) > maxCount) {
