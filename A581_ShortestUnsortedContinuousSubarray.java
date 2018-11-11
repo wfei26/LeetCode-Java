@@ -11,22 +11,31 @@ public class A581_ShortestUnsortedContinuousSubarray {
             return 0;
         }
 
-        int curMin = Integer.MAX_VALUE, curMax = Integer.MIN_VALUE;
-        int i = 0, j = -1;
-        for (int left = 0, right = nums.length - 1; left < nums.length; left++, right--) {
-            curMin = Math.min(curMin, nums[right]);
-            curMax = Math.max(curMax, nums[left]);
-            //if the current max value of first left element is not from current value,
-            //it means the current value need to sort
-            if (curMax != nums[left]) {
-                i = right;
-            }
-            //if the current min value of last right element is not from current value,
-            //it means the current value need to sort
-            if (curMin != nums[right]) {
-                j = left;
+        //CAUTION: we need to initialize j as -1, since we will return j - i + 1
+        //eg: if original array is well sorted, then we will return -1 - 0 + 1 = 0
+        int left = 0, right = -1;
+
+        int curMax = Integer.MIN_VALUE;
+        //traverse from left to right, and then update curMax value if necessary
+        for (int i = 0; i < nums.length; i++) {
+            curMax = Math.max(curMax, nums[i]);
+            //if the current max value is not from current value,
+            //it means the current value need to sort, and put in another correct position
+            if (curMax != nums[i]) {
+                right = i;
             }
         }
-        return j - i + 1;
+
+        int curMin = Integer.MAX_VALUE;
+        //traverse from right to left, and then update curMin value if necessary
+        for (int i = nums.length - 1; i >= 0; i--) {
+            curMin = Math.min(curMin, nums[i]);
+            //if the current min value is not from current value,
+            //it means the current value need to sort, and put in another correct position
+            if (curMin != nums[i]) {
+                left = i;
+            }
+        }
+        return right - left + 1;
     }
 }

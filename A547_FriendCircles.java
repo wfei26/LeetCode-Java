@@ -8,6 +8,59 @@ public class A547_FriendCircles {
         System.out.println(output);
     }
 
+    class UnionFind {
+        private int count;
+        private int[] parent, rank;
+
+        public UnionFind (int size) {
+            parent = new int[size];
+            rank = new int[size];
+            count = size;
+            //DO NOT FORGET to initialize every parent and its rank value
+            for (int i = 0; i < size; i++) {
+                parent[i] = i;
+                rank[i] = 1;
+            }
+        }
+
+        //recursively find the root of disjoint set that input value belong to
+        public int find(int x) {
+            if (x != parent[x]) {
+                parent[x] = find(parent[x]);
+            }
+            return parent[x];
+        }
+
+        public void union(int a, int b) {
+            int rootA = find(a);
+            int rootB = find(b);
+
+            if (rootA == rootB) {
+                return;
+            }
+
+            //if two variable have same root, merge any one of them to another one,
+            //and increase rank of another root by 1
+            if (rank[rootA] == rank[rootB]) {
+                parent[rootB] = rootA;
+                rank[rootA]++;
+            }
+            //if they are not same, merge the one with lower rank to the one with higher rank
+            else if (rank[rootA] > rank[rootB]) {
+                parent[rootB] = rootA;
+            }
+            else {
+                parent[rootA] = rootB;
+            }
+            //after merging, friend circle number --
+            count--;
+        }
+
+        public int getCount() {
+            return count;
+        }
+    }
+
     public int findCircleNum(int[][] M) {
         if (M == null || M.length == 0) {
             return 0;
@@ -17,58 +70,13 @@ public class A547_FriendCircles {
         UnionFind unionfind = new UnionFind(n);
         for (int i = 0; i < n - 1; i++) {
             for (int j = i + 1; j < n; j++) {
-                if (M[i][j] == 1) unionfind.union(i, j);
+                if (M[i][j] == 1) {
+                    //if two pos have relationship, union their friend circles into one friend circle
+                    unionfind.union(i, j);
+                }
             }
         }
-        return unionfind.count();
+        return unionfind.getCount();
     }
 }
 
-class UnionFind {
-    private int count = 0;
-    private int[] parent, rank;
-
-    public UnionFind(int n) {
-        count = n;
-        parent = new int[n];
-        //rank means number of children level of current node
-        rank = new int[n];
-        for (int i = 0; i < n; i++) {
-            parent[i] = i;
-        }
-    }
-
-    public void union(int a, int b) {
-        int rootOfA = find(a);
-        int rootOfB = find(b);
-
-        //if they are share the same root, they are in same group
-        //do not update count, just return
-        if (rootOfA == rootOfB) {
-            return;
-        }
-        //if they are not in the same group, adjust rank and update count
-        else if (rank[rootOfB] > rank[rootOfA]) {
-            parent[rootOfA] = parent[rootOfB];
-        }
-        else {
-            parent[rootOfB] = rootOfA;
-            if (rank[rootOfA] == rank[rootOfB]) {
-                rank[rootOfA]++;
-            }
-        }
-        count--;
-    }
-
-    public int find(int a) {
-        while (a != parent[a]) {
-            parent[a] = parent[parent[a]];
-            a = parent[a];
-        }
-        return a;
-    }
-
-    public int count() {
-        return count;
-    }
-}
