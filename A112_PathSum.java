@@ -29,9 +29,13 @@ public class A112_PathSum {
         if (root == null) {
             return false;
         }
-        if (root.left == null && root.right == null && sum - root.val == 0) {
+
+        //recursion exit: curNode is leaf node and total sum equal to input sum
+        if (root.left == null && root.right == null && root.val == sum) {
             return true;
         }
+
+        //either goes to left child or right child
         return hasPathSum(root.left, sum - root.val) || hasPathSum(root.right, sum - root.val);
     }
 }
