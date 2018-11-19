@@ -51,6 +51,10 @@ public class A289_GameOfLife {
 
                 // At the beginning, every 2nd bit is 0
                 // So we only need to care about when will the 2nd bit become 1
+
+                // Key Points: The reason why we want to convert 1 to 3 and 0 to 2 is because
+                // we can still keep the original state when we continue to iterate next spot
+                // eg: state of 1 == state of 3 if we do 1 & 1 or 3 & 1 in countLives() function
                 if (board[i][j] == 1 && (lives == 2 || lives == 3)) {
                     board[i][j] = 3; // Make the 2nd bit 1: 01 ---> 11
                 }
