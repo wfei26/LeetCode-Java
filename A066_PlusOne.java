@@ -18,10 +18,16 @@ public class A066_PlusOne {
                 digits[i]++;
                 return digits;
             }
-            digits[i] = 0;
+            // if current number is 9, change current number to 0
+            else {
+                digits[i] = 0;
+            }
         }
 
+        // if function does not return inside of loop, it means all numbers in the original array are 9's
         int[] newDigits = new int[digits.length + 1];
+        // only the first digit is 1, the rest will be 0
+        // eg: 99999 + 1 = 100000
         newDigits[0] = 1;
         return newDigits;
     }
