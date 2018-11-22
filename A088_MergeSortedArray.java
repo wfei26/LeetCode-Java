@@ -1,6 +1,6 @@
-public class A88_MergeSortedArray {
+public class A088_MergeSortedArray {
     public static void main(String[] args) {
-        A88_MergeSortedArray solution = new A88_MergeSortedArray();
+        A088_MergeSortedArray solution = new A088_MergeSortedArray();
         int[] nums1 = {1,2,3,0,0,0};
         int[] nums2 = {2,5,6};
         solution.merge(nums1, 3, nums2, 3);
