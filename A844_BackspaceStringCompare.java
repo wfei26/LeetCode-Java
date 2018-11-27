@@ -29,7 +29,7 @@ public class A844_BackspaceStringCompare {
                 stack2.pop();
             }
         }
-
+        //...............
         StringBuilder sb1 = new StringBuilder();
         StringBuilder sb2 = new StringBuilder();
         while (!stack1.isEmpty()) {
