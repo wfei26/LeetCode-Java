@@ -1,7 +1,7 @@
 public class A009_PalindromeNumber {
     public static void main(String[] args) {
         A009_PalindromeNumber solution = new A009_PalindromeNumber();
-        boolean myResult = solution.isPalindrome(12121);
+        boolean myResult = solution.isPalindrome(12321);
         if (myResult) {
             System.out.println("The number is palindrome");
         }
