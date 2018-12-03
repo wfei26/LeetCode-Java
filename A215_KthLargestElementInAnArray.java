@@ -1,7 +1,7 @@
 public class A215_KthLargestElementInAnArray {
     public static void main(String[] args) {
         A215_KthLargestElementInAnArray solution = new A215_KthLargestElementInAnArray();
-        int[] input = {3,2,3,1,2,4,5,5,6};
+        int[] input = {3,2,6,1,2,4,5,5,3};
         int output = solution.findKthLargest(input, 4);
         System.out.println(output);
     }
