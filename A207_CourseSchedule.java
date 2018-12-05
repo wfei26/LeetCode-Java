@@ -17,7 +17,7 @@ public class A207_CourseSchedule {
         // count number of prerequisite courses for each course
         int[] indegrees = new int[numCourses];
         for (int i = 0; i < prerequisites.length; i++) {
-            indegrees[prerequisites[i][1]]++;
+            indegrees[prerequisites[i][0]]++;
         }
 
         // count number of courses which do not have any prerequisite
@@ -31,11 +31,12 @@ public class A207_CourseSchedule {
         while (!queue.isEmpty()) {
             int curCourse = queue.poll();
             for (int i = 0; i < prerequisites.length; i++) {
-                if (curCourse == prerequisites[i][0]) {
-                    indegrees[prerequisites[i][1]]--;
+                if (curCourse == prerequisites[i][1]) {
+                    indegrees[prerequisites[i][0]]--;
                     // if a course has cleared all prerequisites, add to queue as next level course
-                    if (indegrees[prerequisites[i][1]] == 0) {
-                        queue.offer(prerequisites[i][1]);
+                    // DO NOT PUT in outside of if statement, since we can only add this course in queue one time
+                    if (indegrees[prerequisites[i][0]] == 0) {
+                        queue.offer(prerequisites[i][0]);
                     }
                 }
             }
