@@ -16,14 +16,14 @@ public class A547_FriendCircles {
             parent = new int[size];
             rank = new int[size];
             count = size;
-            //DO NOT FORGET to initialize every parent and its rank value
+            // DO NOT FORGET to initialize every parent and its rank value
             for (int i = 0; i < size; i++) {
                 parent[i] = i;
                 rank[i] = 1;
             }
         }
 
-        //recursively find the root of disjoint set that input value belong to
+        // recursively find the root of disjoint set that input value belong to
         public int find(int x) {
             if (x != parent[x]) {
                 parent[x] = find(parent[x]);
@@ -39,20 +39,20 @@ public class A547_FriendCircles {
                 return;
             }
 
-            //if two variable have same root, merge any one of them to another one,
-            //and increase rank of another root by 1
+            // if root of two nodes have same rank, merge any one of them to another one,
+            // and increase rank of another root by 1
             if (rank[rootA] == rank[rootB]) {
                 parent[rootB] = rootA;
                 rank[rootA]++;
             }
-            //if they are not same, merge the one with lower rank to the one with higher rank
+            // if root of two nodes have different rank, merge the one with lower rank to the one with higher rank
             else if (rank[rootA] > rank[rootB]) {
                 parent[rootB] = rootA;
             }
             else {
                 parent[rootA] = rootB;
             }
-            //after merging, friend circle number --
+            // after merging, friend circle number --
             count--;
         }
 
@@ -71,7 +71,8 @@ public class A547_FriendCircles {
         for (int i = 0; i < n - 1; i++) {
             for (int j = i + 1; j < n; j++) {
                 if (M[i][j] == 1) {
-                    //if two pos have relationship, union their friend circles into one friend circle
+                    // if two pos have relationship, union their friend circles into one friend circle
+                    // will determine whether we need to union in union() function
                     unionfind.union(i, j);
                 }
             }
