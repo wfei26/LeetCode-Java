@@ -17,6 +17,8 @@ public class A500_KeyboardRow {
         List<String> ressult = new ArrayList<>();
         Map<Character, Integer> map = new HashMap<>();
         String[] keyboard = {"qwertyuiop", "asdfghjjkl", "zxcvbnm"};
+
+        // store every character with its line number into map
         for (int i = 0; i < keyboard.length; i++) {
             for (char c : keyboard[i].toCharArray()) {
                 map.put(c, i);
@@ -24,8 +26,19 @@ public class A500_KeyboardRow {
         }
 
         for (String word : words) {
-            for (char c : word.toCharArray()) {
-
+            // DO NOT FORGET to convert word to lower case
+            String lowerWord = word.toLowerCase();
+            int curLine = map.get(lowerWord.charAt(0));
+            int count = 0;
+            for (char c : lowerWord.toCharArray()) {
+                if (map.get(c) == curLine) {
+                    count++;
+                }
+            }
+            // if all characters are from same line, then count should be equal to word length
+            // then we can add to result
+            if (count == word.length()) {
+                ressult.add(word);
             }
         }
 
