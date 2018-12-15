@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.PriorityQueue;
 
@@ -14,23 +13,57 @@ public class A373_FindKPairsWithSmallestSums {
         }
     }
 
+    // Basic idea: Use min_heap to keep track on next minimum pair sum, and we only need to maintain K possible
+    // candidates in the data structure.
     public List<int[]> kSmallestPairs(int[] nums1, int[] nums2, int k) {
-        PriorityQueue<int[]> pq = new PriorityQueue<>(
-                (a, b) -> (b[0] + b[1] - (a[0] + a[1]))
+        List<int[]> results = new ArrayList<>();
+        // create a min heap to save top k smallest element
+        PriorityQueue<Pair> pq = new PriorityQueue<>(
+                (a, b) -> (a.val1 + a.val2 - b.val1 - b.val2)
         );
-        for (int i = 0; i < nums1.length; i++) {
-            for (int j = 0; j < nums2.length; j++) {
-                pq.offer(new int[]{nums1[i], nums2[j]});
-                if (pq.size() > k) {
-                    pq.poll();
-                }
-            }
+
+        // corner case
+        if (nums1.length == 0 || nums2.length == 0 || k ==0) {
+            return results;
         }
 
-        List<int[]> results = new ArrayList<>();
-        while (!pq.isEmpty()) {
-            results.add(pq.poll());
+        /* for every numbers in nums1, its best partner(yields min sum) always strats from nums2[0]
+         * since arrays are all sorted; And for a specific number in nums1, its next candidate sould be
+         * [this specific number] + nums2[current_associated_index + 1], unless out of boundary;)
+         */
+        for (int i = 0; i < k && i < nums1.length; i++) {
+            Pair pair = new Pair(nums1[i], nums2[0], 0);
+            pq.offer(pair);
+        }
+
+        // iteratively adding top k smallest element into result list
+        while (k > 0 && !pq.isEmpty()) {
+            Pair curPair = pq.poll();
+            results.add(new int[]{curPair.val1, curPair.val2});
+            k--;
+
+            // check if current value is the largest (last) num in nums2
+            if (curPair.indexVal2 == nums2.length - 1) {
+                continue;
+            }
+            // keep current num1 unchanged, and try next greater element in nums2
+            Pair nextPair = new Pair(curPair.val1, nums2[curPair.indexVal2 + 1], curPair.indexVal2 + 1);
+            pq.offer(nextPair);
         }
         return results;
     }
 }
+
+class Pair {
+    int val1;
+    int val2;
+    //
+    int indexVal2;
+
+    public Pair(int num1, int num2, int curIndex){
+        val1 = num1;
+        val2 = num2;
+        indexVal2 = curIndex;
+    }
+}
+
