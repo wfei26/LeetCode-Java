@@ -63,9 +63,10 @@ public class A380_InsertDeleteGetRandomO1 {
         //get the value of last item in array list
         int lastItem = nums.get(nums.size() - 1);
 
-        //overwrite last item in the current position of input value, and then remove the last one
-        //DO NOT FORGET to update position of last item in map, as well as remove the input value from map
+        // swap last item to the position of input value (to overwrite the value we want to remove),
+        // and then remove the last one
         nums.set(valPos, lastItem);
+        // DO NOT FORGET to update position of last item in map, as well as remove the input value from map
         map.put(lastItem, valPos);
 
         nums.remove(nums.size() - 1);
