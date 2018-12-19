@@ -34,9 +34,12 @@ public class A652_FindDuplicateSubtrees {
         return results;
     }
 
+    // we MUST use hash map to store frequency of each subtree. We ONLY add the duplicate subtree when frequency
+    // is equal to 1. Since if frequency is equal to 2, we do not want to add it again. Otherwise, we will have
+    // duplicate adding for the same one.
     public String postOrder(TreeNode curNode, Map<String, Integer> map, List<TreeNode> myList) {
         if (curNode == null) {
-            return "";
+            return "n";
         }
         //serialize the tree recursively
         //recursion process for the example [1,2,3,4,null,2,4,null,null,4]:

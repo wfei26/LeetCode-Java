@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class A247_StrobogrammaticNumberII {
     public static void main(String[] args) {
@@ -13,26 +10,40 @@ public class A247_StrobogrammaticNumberII {
     }
 
     public List<String> findStrobogrammatic(int n) {
-        List<String> result = new ArrayList<>();
         Map<Character, Character> map = new HashMap<>();
         String keys = "01689", values = "01986";
         for (int i = 0; i < keys.length(); i++) {
-            map.put(keys.charAt(i), values.charAt(i));
+            map.put((keys.charAt(i)), values.charAt(i));
         }
 
-        StringBuilder sb = new StringBuilder();
-        stringHelper(result, map, sb, n);
-        return result;
+        List<String> resultList = dfs(map, n, n);
+        return resultList;
     }
 
-    public void stringHelper(List<String> result, Map<Character, Character> map, StringBuilder sb, int n) {
-        if (n == 0) {
-            result.add(sb.toString());
+    public List<String> dfs(Map<Character, Character> map, int curLen, int originalLen) {
+        // recursion exit: when string is odd length or even length
+        if (curLen == 0) {
+            return new ArrayList<>(Arrays.asList(""));
+        }
+        else if (curLen == 1) {
+            return new ArrayList<>(Arrays.asList("0", "1", "8"));
         }
 
-        for (Map.Entry<Character, Character> entry : map.entrySet()) {
-            sb.append(entry);
-            stringHelper(result, map, sb, n - 2);
+        // recursive step: expand from middle to left and right in every recursive call
+        List<String> newList = dfs(map, curLen - 2, originalLen);
+
+        List<String> result = new ArrayList<>();
+        for (int i = 0; i < newList.size(); i++) {
+            for (Map.Entry<Character, Character> entry : map.entrySet()) {
+                // corner case: number cannot start with 0
+                if (entry.getKey() == '0' && curLen == originalLen) {
+                    continue;
+                }
+                StringBuilder sb = new StringBuilder();
+                sb.append(entry.getKey()).append(newList.get(i)).append(entry.getValue());
+                result.add(sb.toString());
+            }
         }
+        return result;
     }
 }
