@@ -16,21 +16,28 @@ public class A340_LongestSubstringWithAtMostKDistinctCharacters {
 
         int result = 0;
         HashMap<Character, Integer> map = new HashMap<>();
-        for (int left = 0, right = 0; right < s.length(); right++) {
+        for (int left = 0, right = 0; right < s.length(); ) {
+            // if map size is less than or equal to limit, we can keep adding new element into window
             if (map.size() <= k) {
                 char c = s.charAt(right);
                 map.put(c, right);
+                right++;
             }
+
+            // Whenever the size of hash map is greater than 2, we should find the character with
+            // least (left most) index and then remove it to rebuild the window
             if (map.size() > k) {
                 int leftMost = s.length() - 1;
-                for (int val : map.values()) {
-                    leftMost = Math.min(leftMost, val);
+                for (int i : map.values()) {
+                    leftMost = Math.min(leftMost, i);
                 }
                 char c = s.charAt(leftMost);
                 map.remove(c);
+                // new starting point of window
                 left = leftMost + 1;
             }
-            result = Math.max(result, right - left + 1);
+            // calculate window length
+            result = Math.max(result, right - left);
         }
         return result;
     }
