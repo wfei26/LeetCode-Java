@@ -18,6 +18,8 @@ public class A455_AssignCookies {
         Arrays.sort(s);
 
         int result = 0;
+        // use result as index of cookie's array, because we at least need to try
+        // all possible cookie size if children array has enough size
         for (int i = 0; i < s.length && result < g.length; i++) {
             // if candy[i] >= children[result]
             if (s[i] >= g[result]) {

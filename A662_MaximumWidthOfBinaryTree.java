@@ -24,7 +24,7 @@ public class A662_MaximumWidthOfBinaryTree {
 
         Queue<TreeNode> queue = new LinkedList<>();
         queue.offer(root);
-        
+
         // map stores node with its virtual index in every single level
         Map<TreeNode, Integer> map = new HashMap<>();
         map.put(root, 1);
