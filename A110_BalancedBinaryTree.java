@@ -27,13 +27,6 @@ public class A110_BalancedBinaryTree {
         return newNode;
     }
 
-    int depth (TreeNode root) {
-        if (root == null) {
-            return 0;
-        }
-        return Math.max(depth(root.left) + 1, depth (root.right) + 1);
-    }
-
     public boolean isBalanced(TreeNode root) {
         if (root == null) {
             return true;
@@ -43,5 +36,12 @@ public class A110_BalancedBinaryTree {
         int rightDepth = depth(root.right);
 
         return (Math.abs(rightDepth - leftDepth) <= 1) && (isBalanced(root.left)) && (isBalanced(root.right));
+    }
+
+    int depth (TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        return Math.max(depth(root.left) + 1, depth(root.right) + 1);
     }
 }
