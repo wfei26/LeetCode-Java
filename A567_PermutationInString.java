@@ -1,4 +1,3 @@
-import java.util.HashMap;
 
 public class A567_PermutationInString {
     public static void main(String[] args) {
@@ -9,24 +8,30 @@ public class A567_PermutationInString {
     }
 
 
+    // use sliding window with map to solve the problem
     public boolean checkInclusion(String s1, String s2) {
         if (s1 == null || s2 == null || s1.length() > s2.length()) {
             return false;
         }
 
         int[] map = new int[26];
-        char[] s1Arr = s1.toCharArray();
-        char[] s2Arr = s2.toCharArray();
+        // traverse the entire s1 and s1 length of s2, set map frequency value
         for (int i = 0; i < s1.length(); i++) {
-            map[s1Arr[i] - 'a']++;
-            map[s2Arr[i] - 'a']--;
+            map[s2.charAt(i) - 'a']++;
+            map[s1.charAt(i) - 'a']--;
         }
+
+        // if all elements in s1 are canceled by all elements in first s1 length of s2
+        // we found the correct answer
         if (isEmptyMap(map)) {
             return true;
         }
+
+        // start from s1.length, continue to move sliding window, once the map is empty
+        // we found the correct answer
         for (int i = s1.length(); i < s2.length(); i++) {
-            map[s2Arr[i] - 'a']--;
-            map[s2Arr[i - s1.length()] - 'a']++;
+            map[s2.charAt(i - s1.length()) - 'a']--;
+            map[s2.charAt(i) - 'a']++;
             if (isEmptyMap(map)) {
                 return true;
             }

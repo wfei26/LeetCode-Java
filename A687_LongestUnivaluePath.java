@@ -35,19 +35,21 @@ public class A687_LongestUnivaluePath {
         return maxLength;
     }
 
-    public int calcLength(TreeNode curNode, int curVal) {
+    public int calcLength(TreeNode curNode, int parentVal) {
+        // recursion exit 1: the bottom level
         if (curNode == null) {
             return 0;
         }
 
-        //pass current node value and child node to next recursion call
+        //recursive step: pass current node value and left or right child node to next recursion call
         int leftLength = calcLength(curNode.left, curNode.val);
         int rightLength = calcLength(curNode.right, curNode.val);
+
         //maxLength should be max sum of length of right subtree + right subtree
         maxLength = Math.max(maxLength, rightLength + leftLength);
-        //if current node value on current recursion step is equal to previous node value
-        //add length by 1
-        if (curNode.val == curVal) {
+
+        // recursion exit 2: if current node value is equal to its parent node value, add length by 1
+        if (curNode.val == parentVal) {
             return Math.max(leftLength, rightLength) + 1;
         }
         return 0;
