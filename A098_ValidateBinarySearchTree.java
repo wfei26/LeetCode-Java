@@ -78,6 +78,9 @@ public class A098_ValidateBinarySearchTree {
         if (curNode.val <= curMin || curNode.val >= curMax) {
             return false;
         }
+
+        // after every recursive call, the range of [curMin, curMax] will be expanded
+        // any new number that out of this range will violate the BST rule
         boolean isLeftValid = helper(curNode.left, curMin, curNode.val);
         boolean isRightValid = helper(curNode.right, curNode.val, curMax);
         return isLeftValid && isRightValid;

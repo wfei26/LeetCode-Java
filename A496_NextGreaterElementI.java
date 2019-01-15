@@ -12,15 +12,20 @@ public class A496_NextGreaterElementI {
         }
     }
 
+    // use monotonically decreasing stack
     public int[] nextGreaterElement(int[] nums1, int[] nums2) {
         HashMap<Integer, Integer> map = new HashMap<>();
         Stack<Integer> stack = new Stack<>();
         for (int i = 0; i < nums2.length; i++) {
+            // WARNING: MUST use while instead of if statement
             while (!stack.isEmpty() && stack.peek() < nums2[i]) {
+                // we only update map if we find there is a num that great than num on top of stack
                 map.put(stack.pop(), nums2[i]);
             }
             stack.push(nums2[i]);
         }
+        // if map contains the key, the number has next greater element
+        // otherwise, the number does not have next greater element, then put -1 as result
         for (int i = 0; i < nums1.length; i++) {
             nums1[i] = map.getOrDefault(nums1[i], -1);
         }

@@ -38,7 +38,7 @@ public class A430_FlattenAMultilevelDoublyLinkedList {
             curNode.next = childNode;
             childNode.prev = curNode;
 
-            // if parent node has next node, flatten the child until, connect it with the next, then go next
+            // if parent node has next node, flatten the child, connect it with the next, then go next
             // until reach the end
             if (nextNode != null) {
                 childTail.next = nextNode;

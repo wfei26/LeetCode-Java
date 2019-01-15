@@ -59,6 +59,10 @@ public class A301_RemoveInvalidParentheses {
 
                 // DO NOT FORGET to determine value of leftCount and rightCount, since we need to know
                 // if we still have invalid parentheses left after current recursive step
+
+                // pruning: it is not possible for leftCount == 0 && rightCount == 0 at here
+                // but may have the condition if leftCount == 0 || rightCount == 0
+                // so we can check the leftCount and rightCount condition to prune
                 if (leftCount > 0 && s.charAt(i) == '(') {
                     dfs(results, tempStr, leftCount - 1, rightCount, i);
                 }
