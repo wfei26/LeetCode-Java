@@ -1,28 +1,13 @@
 public class A236_LowestCommonAncestorOfABinaryTree {
     public static void main(String[] args) {
         A236_LowestCommonAncestorOfABinaryTree solution = new A236_LowestCommonAncestorOfABinaryTree();
-        int[] myInputs = {1,2,3,5,6,8};
-        TreeNode myTree = solution.sortedArrayToBST(myInputs);
-        TreeNode output = solution.lowestCommonAncestor(myTree, myTree.left, myTree.right);
+        TreeNode myTree = new TreeNode(5);
+        myTree.left = new TreeNode(6);
+        myTree.right = new TreeNode(10);
+        myTree.left.right = new TreeNode(7);
+        myTree.left.right.left = new TreeNode(8);
+        TreeNode output = solution.lowestCommonAncestor(myTree, myTree.left, myTree.left.right.left);
         System.out.println(output.val);
-    }
-
-    public TreeNode sortedArrayToBST(int[] nums) {
-        if (nums.length == 0) {
-        }
-        TreeNode newTree = helpers(nums, 0, nums.length - 1);
-        return newTree;
-    }
-
-    public TreeNode helpers(int[] num, int low, int high) {
-        if (low > high) {
-            return null;
-        }
-        int mid = low + (high - low) / 2;
-        TreeNode newNode = new TreeNode(num[mid]);
-        newNode.left = helpers(num, low, mid - 1);
-        newNode.right = helpers(num, mid + 1, high);
-        return newNode;
     }
 
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
@@ -37,12 +22,15 @@ public class A236_LowestCommonAncestorOfABinaryTree {
         TreeNode leftSubtree = lowestCommonAncestor(root.left, p, q);
         TreeNode rightSubtree = lowestCommonAncestor(root.right, p, q);
 
+        // if left subtree does not contain one of the input node, then the input node must in right subtree
+        // we will return the right subtree, which is the node has higher level
         if (leftSubtree == null) {
             return rightSubtree;
         }
         else if (rightSubtree == null) {
             return leftSubtree;
         }
+        // if two nodes are in both side, we will return the root
         else {
             return root;
         }
