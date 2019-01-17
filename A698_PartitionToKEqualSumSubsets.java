@@ -39,6 +39,8 @@ public class A698_PartitionToKEqualSumSubsets {
             if (!visited[i]) {
                 visited[i] = true;
                 // third recursion exit: update curSum, and keep finding the rest of numbers of candidate subset
+                // We MUST return true at here if we can get true return from base case. Otherwise, we do not have
+                // any function exit that return true
                 if (partitionHelper(nums, k, target, curSum + nums[i], visited, i + 1)) {
                     return true;
                 }
