@@ -1,5 +1,4 @@
 public class A124_BinaryTreeMaximumPathSum {
-    int maxSum = Integer.MIN_VALUE;
     public static void main(String[] args) {
         A124_BinaryTreeMaximumPathSum solution = new A124_BinaryTreeMaximumPathSum();
         int[] myInputs = {-5,7,9,10,15,20};
@@ -26,20 +25,28 @@ public class A124_BinaryTreeMaximumPathSum {
         return newNode;
     }
 
+    int maxSum = Integer.MIN_VALUE;
     public int maxPathSum(TreeNode root) {
         if (root == null) {
             return 0;
         }
-        helper(root);
+        dfs(root);
         return maxSum;
     }
 
-    public int helper(TreeNode root) {
+    /*
+    * Recursion rule:
+    * 1. root must be used
+    * 2. at most one child can be used
+    * 3. maxSum does not have any relationship with recursion function, need to be calculated during every recursive call
+    * */
+    public int dfs(TreeNode root) {
         if (root == null) {
             return 0;
         }
-        int left = Math.max(0, helper(root.left));
-        int right = Math.max(0, helper(root.right));
+        // if left or right subtree is negative sum, we will drop the entire subtree (without adding them to sum)
+        int left = Math.max(0, dfs(root.left));
+        int right = Math.max(0, dfs(root.right));
         maxSum = Math.max(maxSum, left + root.val + right);
         return Math.max(left, right) + root.val;
     }
