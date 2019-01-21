@@ -23,21 +23,13 @@ public class A130_SurroundedRegions {
         //check left border and right border
         for (int i = 0; i < rowLen; i++) {
             checkO(board, i, 0);
-            //try to optimize the solution, if border has only one line
-            //we do not have to call checkO() again
-            if (colLen > 1) {
-                checkO(board, i, colLen - 1);
-            }
+            checkO(board, i, colLen - 1);
         }
 
         //check top border and bottom border
         for (int i = 1; i < colLen - 1; i++) {
             checkO(board, 0, i);
-            //try to optimize the solution, if border has only one column
-            //we do not have to call checkO() again
-            if (rowLen > 1) {
-                checkO(board, rowLen - 1, i);
-            }
+            checkO(board, rowLen - 1, i);
         }
 
         //change the rest of ‘O’ to ‘X’
