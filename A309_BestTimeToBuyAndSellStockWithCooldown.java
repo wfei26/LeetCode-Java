@@ -21,8 +21,15 @@ public class A309_BestTimeToBuyAndSellStockWithCooldown {
         s2[0] = Integer.MIN_VALUE;
 
         for (int i = 1; i < len; i++) {
+            // for current state of s0, we may stay on s0 state to rest many days, or transfer from s2 state to rest one day
             s0[i] = Math.max(s0[i - 1], s2[i - 1]);
+
+            // for current state of s1, we may stay on s1 state to rest many days (wait better opportunity to buy)
+            // or transfer from s0 state to buy at current price
             s1[i] = Math.max(s1[i - 1], s0[i - 1] - prices[i]);
+
+            // for current state of s2, we may stay on s2 state to rest many days (wait better opportunity to sell)
+            // or transfer from s1 state to sell (at current price) on the second day after buying
             s2[i] = Math.max(s2[i - 1], s1[i - 1] + prices[i]);
         }
         return Math.max(s0[len - 1], s2[len - 1]);

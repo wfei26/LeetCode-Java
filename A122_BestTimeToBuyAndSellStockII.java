@@ -6,6 +6,7 @@ public class A122_BestTimeToBuyAndSellStockII {
         System.out.println(myResult);
     }
 
+    /** By greedy algorithm, we will try to accumulate profit when next day price is greater than previous day price*/
     public int maxProfit(int[] prices) {
         int result = 0;
         for (int i = 0; i < prices.length - 1; i++) {

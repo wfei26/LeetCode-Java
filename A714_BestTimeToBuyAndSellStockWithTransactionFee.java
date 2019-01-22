@@ -12,12 +12,19 @@ public class A714_BestTimeToBuyAndSellStockWithTransactionFee {
             return 0;
         }
 
-        int result = 0;
-        int[] dp = new int[len];
+        // sub-problem: buy[i] represents max profit if we buy stock at price i
+        // sell[i] represents max profit if we sell stock at price i
+        int[] buy = new int[len];
+        int[] sell = new int[len];
+
+        // base case: buy stock at the first day
+        buy[0] = - prices[0] - fee;
         for (int i = 1; i < len; i++) {
-
+            // check if we have lower buying price at day i
+            buy[i] = Math.max(buy[i - 1], sell[i - 1] - prices[i] - fee);
+            // check if we have higher selling price at day i
+            sell[i] = Math.max(sell[i - 1], buy[i - 1] + prices[i]);
         }
-
-        return result;
+        return sell[len - 1];
     }
 }
