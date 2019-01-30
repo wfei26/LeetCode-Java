@@ -6,6 +6,7 @@ public class A300_LongestIncreasingSubsequence {
         System.out.println(myResult);
     }
 
+    /** reference: https://www.geeksforgeeks.org/longest-monotonically-increasing-subsequence-size-n-log-n/ */
     public int lengthOfLIS(int[] nums) {
         if (nums.length == 0) {
             return 0;
