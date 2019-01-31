@@ -28,10 +28,11 @@ public class A763_PartitionLabels {
 
         int last = 0;
         for (int left = 0, right = 0; right < len; right++) {
-            //"last" can record the most possible tail of a partition
-            //since "last" always saves the max index of last occurrence of
-            //all visited character, it can guarantee that there does not
-            //have any same character after current window when last == right
+            /**
+             * "last" can record the right most possible tail of current partition since "last" always saves the
+             * max index of last occurrence of all visited character, it can guarantee that there does not have any
+             * same character after current window when last == right
+             */
             last = Math.max(last, map[strArr[right] - 'a']);
             if (last == right) {
                 results.add(right - left + 1);
