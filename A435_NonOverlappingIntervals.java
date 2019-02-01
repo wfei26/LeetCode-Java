@@ -29,4 +29,15 @@ public class A435_NonOverlappingIntervals {
         // the rest will be min number need to remove
         return intervals.length - count;
     }
+
+    static class Interval {
+        int start;
+        int end;
+        Interval() {
+            start = 0; end = 0;
+        }
+        Interval(int s, int e) {
+            start = s; end = e;
+        }
+    }
 }

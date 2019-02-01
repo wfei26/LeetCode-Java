@@ -56,4 +56,12 @@ public class A117_PopulatingNextRightPointersInEachNodeII {
             curParent = dummyHead.next;
         }
     }
+
+    class TreeLinkNode {
+        int val;
+        TreeLinkNode left;
+        TreeLinkNode right;
+        TreeLinkNode next;
+        TreeLinkNode(int x) {val = x;}
+    }
 }

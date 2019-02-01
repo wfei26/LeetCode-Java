@@ -31,38 +31,39 @@ public class A173_BinarySearchTreeIterator {
         return newNode;
     }
 
-}
+    static class BSTIterator {
+        Stack<TreeNode> stack;
+        public BSTIterator(TreeNode root) {
+            stack = new Stack<>();
+            pushAllLeftNode(root);
+        }
 
-class BSTIterator {
-    Stack<TreeNode> stack;
-    public BSTIterator(TreeNode root) {
-        stack = new Stack<>();
-        pushAllLeftNode(root);
-    }
+        /** @return whether we have a next smallest number */
+        public boolean hasNext() {
+            return !stack.isEmpty();
+        }
 
-    /** @return whether we have a next smallest number */
-    public boolean hasNext() {
-        return !stack.isEmpty();
-    }
+        /** @return the next smallest number */
+        /*
+         * condition 1: if curNode does not have right subtree, top element in stack is still the
+         * next left subtree,
+         * condition 2: if curNode has right subtree, then we will deal with right subtree as same as before
+         * conclusion: treat the node on the top of stack as current middle node (root node of current subtree)
+         * */
+        public int next() {
+            TreeNode curNode = stack.pop();
+            pushAllLeftNode(curNode.right);
+            return curNode.val;
+        }
 
-    /** @return the next smallest number */
-    /*
-     * condition 1: if curNode does not have right subtree, top element in stack is still the
-     * next left subtree,
-     * condition 2: if curNode has right subtree, then we will deal with right subtree as same as before
-     * conclusion: treat the node on the top of stack as current middle node (root node of current subtree)
-     * */
-    public int next() {
-        TreeNode curNode = stack.pop();
-        pushAllLeftNode(curNode.right);
-        return curNode.val;
-    }
-
-    // iteratively push all left nodes into stack until reach the leaf level
-    public void pushAllLeftNode(TreeNode curNode) {
-        while (curNode != null) {
-            stack.push(curNode);
-            curNode = curNode.left;
+        // iteratively push all left nodes into stack until reach the leaf level
+        public void pushAllLeftNode(TreeNode curNode) {
+            while (curNode != null) {
+                stack.push(curNode);
+                curNode = curNode.left;
+            }
         }
     }
+
 }
+

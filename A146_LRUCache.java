@@ -104,6 +104,13 @@ public class A146_LRUCache {
         return curNode;
     }
 
+    class DoubleListNode {
+        int key;
+        int value;
+        DoubleListNode prev;
+        DoubleListNode next;
+    }
+
     /**
      * Your LRUCache object will be instantiated and called as such:
      * LRUCache obj = new LRUCache(capacity);
@@ -112,9 +119,3 @@ public class A146_LRUCache {
      */
 }
 
-class DoubleListNode {
-    int key;
-    int value;
-    DoubleListNode prev;
-    DoubleListNode next;
-}

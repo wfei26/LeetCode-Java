@@ -49,20 +49,21 @@ public class A430_FlattenAMultilevelDoublyLinkedList {
             return childTail;
         }
     }
-}
 
-class Node {
-    public int val;
-    public Node prev;
-    public Node next;
-    public Node child;
+    class Node {
+        public int val;
+        public Node prev;
+        public Node next;
+        public Node child;
 
-    public Node() {}
+        public Node() {}
 
-    public Node(int _val,Node _prev,Node _next,Node _child) {
-        val = _val;
-        prev = _prev;
-        next = _next;
-        child = _child;
+        public Node(int _val,Node _prev,Node _next,Node _child) {
+            val = _val;
+            prev = _prev;
+            next = _next;
+            child = _child;
+        }
     }
 }
+

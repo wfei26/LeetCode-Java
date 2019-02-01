@@ -56,15 +56,16 @@ public class A208_ImplementTrie {
         // same as search() except for return value
         return true;
     }
-}
 
-class TrieNode {
-    char val;
-    boolean isCorrectWord;
-    TrieNode[] children = new TrieNode[26];
+    class TrieNode {
+        char val;
+        boolean isCorrectWord;
+        TrieNode[] children = new TrieNode[26];
 
-    public TrieNode(char c) {
-        val = c;
-        isCorrectWord = false;
+        public TrieNode(char c) {
+            val = c;
+            isCorrectWord = false;
+        }
     }
 }
+

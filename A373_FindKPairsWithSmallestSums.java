@@ -52,18 +52,19 @@ public class A373_FindKPairsWithSmallestSums {
         }
         return results;
     }
-}
 
-class Pair {
-    int val1;
-    int val2;
-    //
-    int indexVal2;
+    class Pair {
+        int val1;
+        int val2;
+        //
+        int indexVal2;
 
-    public Pair(int num1, int num2, int curIndex){
-        val1 = num1;
-        val2 = num2;
-        indexVal2 = curIndex;
+        public Pair(int num1, int num2, int curIndex){
+            val1 = num1;
+            val2 = num2;
+            indexVal2 = curIndex;
+        }
     }
 }
+
 

@@ -49,12 +49,12 @@ public class A116_PopulatingNextRightPointersInEachNode {
             parent = parent.left;
         }
     }
-}
 
-class TreeLinkNode {
-    int val;
-    TreeLinkNode left;
-    TreeLinkNode right;
-    TreeLinkNode next;
-    TreeLinkNode(int x) {val = x;}
+    class TreeLinkNode {
+        int val;
+        TreeLinkNode left;
+        TreeLinkNode right;
+        TreeLinkNode next;
+        TreeLinkNode(int x) {val = x;}
+    }
 }

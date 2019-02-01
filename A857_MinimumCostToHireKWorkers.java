@@ -9,7 +9,7 @@ public class A857_MinimumCostToHireKWorkers {
         System.out.println(output);
     }
 
-    /*
+    /**
     * 1. Every worker in the paid group should be paid in the ratio of their quality compared to other workers
     * in the paid group.
     * So for any two workers in the paid group,
@@ -67,14 +67,15 @@ public class A857_MinimumCostToHireKWorkers {
         }
         return result;
     }
-}
 
-class WorkerInfo {
-    double ratio;
-    int quality;
+    class WorkerInfo {
+        double ratio;
+        int quality;
 
-    public WorkerInfo(int wage, int quality) {
-        this.ratio = (double)wage / quality;
-        this.quality = quality;
+        public WorkerInfo(int wage, int quality) {
+            this.ratio = (double)wage / quality;
+            this.quality = quality;
+        }
     }
 }
+
