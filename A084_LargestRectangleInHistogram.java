@@ -8,6 +8,8 @@ public class A084_LargestRectangleInHistogram {
         System.out.println(myResult);
     }
 
+    /** main a monotonic increasing stack, and iteratively update max area
+     *  */
     public int largestRectangleArea(int[] heights) {
         if (heights.length == 0) {
             return 0;
