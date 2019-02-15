@@ -10,7 +10,13 @@ public class A532_KDiffPairsInAnArray {
         System.out.println(myResult);
     }
 
+    /**
+     * use a map to deduplicate and count frequency as well
+     * we count frequency is because when k is equal 0, we need to find all elements that have two or more identical
+     * number in the array
+     * */
     public int findPairs(int[] nums, int k) {
+        // corner case: check whether k is less than 0
         if (nums == null || nums.length == 0 || k < 0) {
             return 0;
         }
@@ -26,6 +32,8 @@ public class A532_KDiffPairsInAnArray {
                     result++;
                 }
             }
+            // similar to two sum, but we only use smaller number plus k to get the greater number, to make sure
+            // we only count once for a pair of numbers
             else {
                 if (map.containsKey(entry.getKey() + k)) {
                     result++;
