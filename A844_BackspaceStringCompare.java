@@ -8,6 +8,7 @@ public class A844_BackspaceStringCompare {
         System.out.println(output);
     }
 
+    /** use two stacks to operate two strings, and then re-build two strings to compare them */
     public boolean backspaceCompare(String S, String T) {
         Stack stack1 = new Stack();
         Stack stack2 = new Stack();
@@ -17,7 +18,10 @@ public class A844_BackspaceStringCompare {
                 stack1.push(c);
             }
             else {
-                stack1.pop();
+                // WARNING: DO NOT FORGET to check if stack is empty
+                if (!stack1.isEmpty()) {
+                    stack1.pop();
+                }
             }
         }
 
@@ -26,10 +30,12 @@ public class A844_BackspaceStringCompare {
                 stack2.push(c);
             }
             else {
-                stack2.pop();
+                if (!stack2.isEmpty()) {
+                    stack2.pop();
+                }
             }
         }
-        //...............
+
         StringBuilder sb1 = new StringBuilder();
         StringBuilder sb2 = new StringBuilder();
         while (!stack1.isEmpty()) {
