@@ -13,8 +13,21 @@ public class A373_FindKPairsWithSmallestSums {
         }
     }
 
-    // Basic idea: Use min_heap to keep track on next minimum pair sum, and we only need to maintain K possible
-    // candidates in the data structure.
+    /**
+     * Basic idea: the overall logic is pretty similar to merge K sorted list
+     * the following are the k sorted list(each number in nums1[] full-mesh with the numbers in nums2[].
+     *
+     * (1,2) -> (1,9) -> (1,10) -> (1,15)
+     * (7,2) -> (7,9) -> (7,10) -> (7,15)
+     * (11,2) -> (11,9) -> (11,10) -> (11,15)
+     * (16,2) -> (16,9) -> (16,10) -> (16,15)
+     *
+     * Remember how we do in "merge k sorted list"? We simply add the head of the list into the heap and when a
+     * node is poll(), we just add the node.next.
+     * 
+     * Use min_heap to keep track on next minimum pair sum, and we only need to maintain K possible
+     * candidates in the data structure.
+     * */
     public List<int[]> kSmallestPairs(int[] nums1, int[] nums2, int k) {
         List<int[]> results = new ArrayList<>();
         // create a min heap to save top k smallest element
