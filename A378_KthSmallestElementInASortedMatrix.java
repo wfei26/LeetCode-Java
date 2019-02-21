@@ -10,29 +10,42 @@ public class A378_KthSmallestElementInASortedMatrix {
         System.out.println(output);
     }
 
+    /** High level logic is completely same as merge k sorted list. We can maintain a priority queue with size
+     * less than or equal to n (total number of rows). We poll smallest element from pq at the beginning of
+     * every iteration, then we can add the following element in the same line with the polled element until
+     * find k-th smallest element */
     public int kthSmallest(int[][] matrix, int k) {
         int n = matrix.length;
-        PriorityQueue<Tuple> pq = new PriorityQueue<Tuple>();
-        for(int j = 0; j <= n-1; j++) pq.offer(new Tuple(0, j, matrix[0][j]));
-        for(int i = 0; i < k-1; i++) {
-            Tuple t = pq.poll();
-            if(t.x == n-1) continue;
-            pq.offer(new Tuple(t.x+1, t.y, matrix[t.x+1][t.y]));
+        int m = matrix[0].length;
+        if (k > n * m) {
+            return -1;
+        }
+
+        PriorityQueue<Tuple> pq = new PriorityQueue<>((a, b) -> a.val - b.val);
+        for (int i = 0; i < n; i++) {
+            pq.offer(new Tuple(i, 0, matrix[i][0]));
+        }
+
+        while (k > 1) {
+            Tuple curTuple = pq.poll();
+            // if current line still has element, add into queue
+            if (curTuple.y < m - 1) {
+                pq.offer(new Tuple(curTuple.x, curTuple.y + 1, matrix[curTuple.x][curTuple.y + 1]));
+            }
+            k--;
         }
         return pq.poll().val;
     }
 
-    class Tuple implements Comparable<Tuple> {
-        int x, y, val;
+    class Tuple {
+        int x;
+        int y;
+        int val;
+
         public Tuple (int x, int y, int val) {
             this.x = x;
             this.y = y;
             this.val = val;
-        }
-
-        @Override
-        public int compareTo (Tuple that) {
-            return this.val - that.val;
         }
     }
 }

@@ -24,7 +24,7 @@ public class A373_FindKPairsWithSmallestSums {
      *
      * Remember how we do in "merge k sorted list"? We simply add the head of the list into the heap and when a
      * node is poll(), we just add the node.next.
-     * 
+     *
      * Use min_heap to keep track on next minimum pair sum, and we only need to maintain K possible
      * candidates in the data structure.
      * */
