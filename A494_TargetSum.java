@@ -1,6 +1,3 @@
-import java.util.Map;
-import java.util.Set;
-
 public class A494_TargetSum {
     public static void main(String[] args) {
         A494_TargetSum solution = new A494_TargetSum();
@@ -39,6 +36,9 @@ public class A494_TargetSum {
      * recurrence relation:
      * dp[i][j] += dp[i - 1][i + nums[i - 1]] if j + nums[i - 1] <= sum * 2
      * dp[i][j] += dp[i - 1][i - nums[i - 1]] if j - nums[i - 1] >= 0
+     *
+     * explanation: if j + nums[i - 1] or j - nums[i - 1] is in correct range, we can use the number nums[i - 1]
+     * to generate next state of dp array
      * */
     public int findTargetSumWays2(int[] nums, int S) {
         if (nums.length == 0) {
