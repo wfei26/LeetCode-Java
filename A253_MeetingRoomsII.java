@@ -9,28 +9,30 @@ public class A253_MeetingRoomsII {
         System.out.println(output);
     }
 
+    /**
+     * Maintain a priority queue that sort by ending time.
+     * If new interval does not have conflict with earliest
+     * ending time, we do not need to apply a new room (just poll previous interval from pq, and insert new task)
+     * Otherwise, we need to apply a new room (only insert without polling out)
+     * So the size of pq will only increase, bue never decrease. We can finally return size of pq, it represents number
+     * of rooms we have applied.
+     * */
     public int minMeetingRooms(Interval[] intervals) {
-        if (intervals == null || intervals.length == 0) {
+        if (intervals.length == 0) {
             return 0;
         }
 
-        int n = intervals.length;
-        //sort intervals by starting time
-        Arrays.sort(intervals, (x, y) -> (x.start - y.start));
+        Arrays.sort(intervals, (a,b) -> (a.start - b.start));
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+        pq.offer(intervals[0].end);
 
-        PriorityQueue<Integer> minHeap = new PriorityQueue<>();
-        minHeap.offer(intervals[0].end);
-        for (int i = 1; i < n; i++) {
-            //*if there does not exist conflicts between previous ending time and current starting time
-            //pop the top element from min heap, in order to arrange another interval into this room
-            //then add new interval to PQ
-            //*if there exists conflicts, add interval to PQ directly
-            if (intervals[i].start >= minHeap.peek()) {
-               minHeap.poll();
+        for (int i = 1; i < intervals.length; i++) {
+            if (intervals[i].start >= pq.peek()) {
+                pq.poll();
             }
-            minHeap.offer(intervals[i].end);
+            pq.offer(intervals[i].end);
         }
-        return minHeap.size();
+        return pq.size();
     }
 
     static class Interval {

@@ -16,45 +16,45 @@ public class A286_WallAndGates {
         }
     }
 
+    /** BFS traversal (add all starting points to queue, and operate them simultaneously) */
+    final int[][] dir = new int[][]{{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+    final int INF = Integer.MAX_VALUE;
     public void wallsAndGates(int[][] rooms) {
-        Queue<Coordinate> queue = new LinkedList<>();
-        // push all 0-value points into queue, prepare for BFS
-        for (int i = 0; i < rooms.length; i++) {
-            for (int j = 0; j < rooms[0].length; j++) {
+        if (rooms.length == 0) {
+            return;
+        }
+
+        int n = rooms.length, m = rooms[0].length;
+        Queue<int[]> queue = new LinkedList<>();
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
                 if (rooms[i][j] == 0) {
-                    queue.offer(new Coordinate(i, j));
+                    queue.offer(new int[]{i, j});
                 }
             }
         }
 
-        // BFS with four direction searching
-        while (!queue.isEmpty()) {
-            Coordinate curPoint = queue.poll();
-            if (curPoint.x > 0 && rooms[curPoint.x - 1][curPoint.y] == Integer.MAX_VALUE) {
-                rooms[curPoint.x - 1][curPoint.y] = rooms[curPoint.x][curPoint.y] + 1;
-                queue.offer(new Coordinate(curPoint.x - 1, curPoint.y));
-            }
-            if (curPoint.x < rooms.length - 1 && rooms[curPoint.x + 1][curPoint.y] == Integer.MAX_VALUE) {
-                rooms[curPoint.x + 1][curPoint.y] = rooms[curPoint.x][curPoint.y] + 1;
-                queue.offer(new Coordinate(curPoint.x + 1, curPoint.y));
-            }
-            if (curPoint.y > 0 && rooms[curPoint.x][curPoint.y - 1] == Integer.MAX_VALUE) {
-                rooms[curPoint.x][curPoint.y - 1] = rooms[curPoint.x][curPoint.y] + 1;
-                queue.offer(new Coordinate(curPoint.x, curPoint.y - 1));
-            }
-            if (curPoint.y < rooms[0].length - 1 && rooms[curPoint.x][curPoint.y + 1] == Integer.MAX_VALUE) {
-                rooms[curPoint.x][curPoint.y + 1] = rooms[curPoint.x][curPoint.y] + 1;
-                queue.offer(new Coordinate(curPoint.x, curPoint.y + 1));
-            }
-        }
-    }
+        int level = 1;
+        while(!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                int[] curPoint = queue.poll();
+                int x = curPoint[0];
+                int y = curPoint[1];
 
-    class Coordinate {
-        private int x;
-        private int y;
-        public Coordinate(int a, int b) {
-            x = a;
-            y = b;
+                for (int j = 0; j < 4; j++) {
+                    int dx = x + dir[j][0];
+                    int dy = y + dir[j][1];
+
+                    if (dx < 0 || dx > n - 1 || dy < 0 || dy > m - 1 || rooms[dx][dy] != INF) {
+                        continue;
+                    }
+                    queue.offer(new int[]{dx, dy});
+                    rooms[dx][dy] = Math.min(rooms[dx][dy], level);
+                }
+            }
+            level++;
         }
     }
 }

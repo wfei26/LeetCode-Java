@@ -2,6 +2,7 @@ import com.sun.jdi.IntegerValue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class A056_MergeIntervals {
@@ -21,26 +22,27 @@ public class A056_MergeIntervals {
         }
 
         List<Interval> resultList = new ArrayList<>();
-        //sort intervals by starting time
-        //CAUTION: it is list sorting at here, not array sorting
-        intervals.sort((a, b) -> (a.start - b.start));
-        int prevStart = intervals.get(0).start, prevEnd = intervals.get(0).end;
 
-        //start from the second interval, iteratively compare whether current starting time
-        //is greater than previous ending time
-        //if so, add previous interval to result list
-        //else, merge two intervals by selecting the first starting time and max ending time between them
+        // sort by starting time
+        Collections.sort(intervals, (a, b) -> (a.start - b.start));
+        int prevStart = intervals.get(0).start;
+        int prevEnd = intervals.get(0).end;
+
+        /** Start from the second interval, iteratively compare whether current starting time is greater than previous
+         * ending time.
+         * if curStart > prevEnd, add previous interval to result list and update both of prevStart and prevEnd
+         * if curStart <= prevEnd, merge two intervals by selecting the prevStart and max(curEnd, prevEnd) */
         for (int i = 1; i < intervals.size(); i++) {
-            //add valid interval to result list
+            // no conflict
             if (intervals.get(i).start > prevEnd) {
                 resultList.add(new Interval(prevStart, prevEnd));
-
-                //update prevStart and prevStart after adding the previous valid interval
                 prevStart = intervals.get(i).start;
                 prevEnd = intervals.get(i).end;
             }
-            //merge two intervals
+
+            // has conflict: merge two intervals
             else {
+                // WARNING: DO NOT FORGET to get max value of current end and previous end
                 prevEnd = Math.max(intervals.get(i).end, prevEnd);
             }
         }

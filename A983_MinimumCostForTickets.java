@@ -25,6 +25,7 @@ public class A983_MinimumCostForTickets {
         // we should traverse consecutive days which from the first day to the last day of input
         for (int i = 1; i <= lastDay; i++) {
             // if current day is not included in input, assign the same dp value as previous day and skip current iteration
+            // because we at day i, we have already spent dp[i - 1] dollars, we have to assign a minimum value to dp[i]
             if (!travelDays.contains(i)) {
                 dp[i] = dp[i - 1];
                 continue;
