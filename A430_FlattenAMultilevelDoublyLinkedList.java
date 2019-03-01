@@ -8,6 +8,10 @@ public class A430_FlattenAMultilevelDoublyLinkedList {
         return head;
     }
 
+    /** dfs() always return tail of current list
+     * if curNode does not have child, we only need to linearly traverse the entire list until reach the end
+     * if curNode has child, we need to connect current node with its child node, and then find tail of child
+     * list, to connect child tail with its nextNode */
     public Node dfs(Node curNode) {
         if (curNode == null) {
             return null;

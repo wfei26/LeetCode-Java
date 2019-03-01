@@ -10,11 +10,17 @@ public class A332_ReconstructItinerary {
         }
     }
 
+    /**
+     * Step 1: build a graph -> key: departure, value: all possible arrivals in a PriorityQueue
+     * Step 2: use dfs recursively add destination into result list
+     *
+     * Try this example: [["JFK","ATL"],["JFK","LAX"],["JFK","ORD"],["LAX","PVG"],["ORD","PEK"],["PVG","JFK"],["PEK","JFK"]]
+     * */
     public List<String> findItinerary(String[][] tickets) {
         LinkedList<String> itinerary = new LinkedList<>();
         Map<String, PriorityQueue<String>> map = new HashMap<>();
 
-        //put all elements into map, with departure as key, and related arrivals as value (priority queue)
+        // build graph
         for (String[] ticket : tickets) {
             if (!map.containsKey(ticket[0])) {
                 map.put(ticket[0], new PriorityQueue<>());
@@ -25,12 +31,21 @@ public class A332_ReconstructItinerary {
         return itinerary;
     }
 
+    /** if current departure has next destinations, we need to traverse all possible paths. Otherwise, add it into result */
     public void dfs(Map<String, PriorityQueue<String>> map, LinkedList<String> itinerary, String departure) {
+        // final destination
+        if (map.get(departure) == null) {
+            itinerary.add(departure);
+            return;
+        }
+
+        // traverse all possible path, if current departure does not have any destinations, it will not enter the loop,
+        // and add current airport to the front of result list directly
         PriorityQueue<String> arrivals = map.get(departure);
-        while (arrivals != null && !arrivals.isEmpty()) {
+        while (!arrivals.isEmpty()) {
             dfs(map, itinerary, arrivals.poll());
         }
-        //add next poped item to the beginning of the linked list
+        // use addFirst() because of the order of recursion stack
         itinerary.addFirst(departure);
     }
 }

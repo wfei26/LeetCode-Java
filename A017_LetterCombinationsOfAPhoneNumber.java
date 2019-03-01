@@ -11,23 +11,28 @@ public class A017_LetterCombinationsOfAPhoneNumber {
         }
     }
 
+    final String[] letters = {"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
     public List<String> letterCombinations(String digits) {
-        List<String> myList = new ArrayList<>();
+        List<String> result = new ArrayList<>();
         if (digits.length() == 0) {
-            return myList;
+            return result;
+        }
+        dfs(result, digits, 0, "");
+        return result;
+    }
+
+    /** Get index of letters array by getting every single digit of digits string, maintain a prefix string, traverse all
+     * characters of string on the corresponding index of letters and append to prefix string that we already built in previous
+     * recursions */
+    public void dfs(List<String> result, String digits, int pos, String prefix) {
+        if (pos == digits.length()) {
+            result.add(prefix);
+            return;
         }
 
-        String[] phoneKeys = new String[] {"0", "1", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
-        myList.add("");
-        for (int i = 0; i < digits.length(); i++) {
-            List<String> tempList = new ArrayList<>();
-            for (int j = 0; j < myList.size(); j++) {
-                for (char c : phoneKeys[digits.charAt(i) - '0'].toCharArray()) {
-                    tempList.add(myList.get(j) + c);
-                }
-            }
-            myList = tempList;
+        String candidates = letters[digits.charAt(pos) - '0'];
+        for (int i = 0; i < candidates.length(); i++) {
+            dfs(result, digits, pos + 1, prefix + candidates.charAt(i));
         }
-        return myList;
     }
 }

@@ -3,15 +3,14 @@ import java.util.Stack;
 public class A227_BasicCalculatorII {
     public static void main(String[] args) {
         A227_BasicCalculatorII solution = new A227_BasicCalculatorII();
-        String input = "42";
+        String input = "3+2*3";
         int output = solution.calculate(input);
         System.out.println(output);
     }
 
     /**
-     * the main idea is that we only do multiply calculation and divide calculation in every iteration,
-     * then push every number into stack with calculation result of multiply and divide.
-     * after reading all string, add every number in stack to get final result
+     * Key point: we only do multiplication and division in every iteration, then push every number into stack with
+     * calculation result. Adding every calculation result in stack to and finally accumulate to get final result.
      * */
     public int calculate(String s) {
         if (s == null || s.length() == 0) {
@@ -21,14 +20,15 @@ public class A227_BasicCalculatorII {
         Stack<Integer> stack = new Stack<>();
         int result = 0;
         int curNum = 0;
+        // initialize sign as '+' since we do not have any negative numbers in the input
+        // virtually adding a '+' before the input string. eg: 3+2*3 -> actually execute +3+2*3
         char sign = '+';
 
         for (int i = 0; i < s.length(); i++) {
-            if (s.charAt(i) == ' ' && i != s.length() - 1) {
+            if (s.charAt(i) == ' ') {
                 continue;
             }
             else if (Character.isDigit(s.charAt(i))) {
-                // WARNING: DO NOT USE += at here!!!
                 curNum = curNum * 10 + (s.charAt(i) - '0');
             }
             else {
@@ -37,12 +37,10 @@ public class A227_BasicCalculatorII {
                 sign = s.charAt(i);
                 curNum = 0;
             }
-            // DO NOT miss last number
-            if (i == s.length() - 1) {
-                stackOperation(stack, sign, curNum);
-            }
         }
 
+        // WARNING: DO NOT FORGET to the last operation
+        stackOperation(stack, sign, curNum);
         while (!stack.isEmpty()) {
             result += stack.pop();
         }
