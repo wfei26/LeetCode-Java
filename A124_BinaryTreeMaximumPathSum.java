@@ -35,6 +35,9 @@ public class A124_BinaryTreeMaximumPathSum {
     }
 
     /*
+    * 这题是经典的 "recursion的返回值并不是我们最后要求的值" 的题型。recursion返回的是从下至上包括当前root的单条最大路径；而我们要求
+    * 的maxSum的结果是在recursion的过程中不断更新的，也就是跨过当前root包含左子树和右子树的最大路径
+    *
     * Recursion rule:
     * 1. root must be used
     * 2. at most one child can be used

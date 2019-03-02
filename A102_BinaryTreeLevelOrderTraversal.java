@@ -37,31 +37,31 @@ public class A102_BinaryTreeLevelOrderTraversal {
         return newNode;
     }
 
+    /** standard BFS traversal */
     public List<List<Integer>> levelOrder(TreeNode root) {
-        List<List<Integer>> results = new ArrayList<>();
         if (root == null) {
-            return results;
+            return new ArrayList<>();
         }
 
+        List<List<Integer>> result = new ArrayList<>();
         Queue<TreeNode> queue = new LinkedList<>();
         queue.offer(root);
-        while (!queue.isEmpty()) {
+
+        while(!queue.isEmpty()) {
+            int size = queue.size();
             List<Integer> curList = new ArrayList<>();
-            //CAUTION: must use an int variable to store the current level size
-            //since queue size will dynamically change after adding elements in loop
-            int curLevelSize = queue.size();
-            for (int i = 0; i < curLevelSize; i++) {
-                if (queue.peek().left != null) {
-                    queue.offer(queue.peek().left);
+            for (int i = 0; i < size; i++) {
+                TreeNode curNode = queue.poll();
+                curList.add(curNode.val);
+                if (curNode.left != null) {
+                    queue.offer(curNode.left);
                 }
-                if (queue.peek().right != null) {
-                    queue.offer(queue.peek().right);
+                if (curNode.right != null) {
+                    queue.offer(curNode.right);
                 }
-                //add child subtrees into queue, then poll out parent node
-                curList.add(queue.poll().val);
             }
-            results.add(curList);
+            result.add(curList);
         }
-        return results;
+        return result;
     }
 }
