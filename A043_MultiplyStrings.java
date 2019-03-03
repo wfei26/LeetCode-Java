@@ -7,38 +7,40 @@ public class A043_MultiplyStrings {
         System.out.println(result);
     }
 
+    /** Use brute force to traverse every single digit of the input numbers, and multiply each single digit one by one.
+     * For example, if I multiply a number ins num1[i] and a number in num2[j], then the unit index will be i + j + 1,
+     * the tens index will be i + j (draw hte multiplication diagram to get the index). */
     public String multiply(String num1, String num2) {
-        int len1 = num1.length(), len2 = num2.length();
-        int[] resultVal = new int[len1 + len2];
+        int n = num1.length(), m = num2.length();
+        int[] numArr = new int[n + m];
 
-        int unit, tens, multiplyVal, sum;
-        for (int i = len1 - 1; i >= 0; i--) {
-            for (int j = len2 - 1; j >=0; j--) {
-                tens = i + j;
-                unit = i + j + 1;
-                multiplyVal = (num1.charAt(i) - '0') * (num2.charAt(j) - '0');
-                sum = multiplyVal + resultVal[unit];
-                resultVal[unit] = sum % 10;
-                resultVal[tens] += sum / 10;
+        for (int i = n - 1; i >= 0; i--) {
+            for (int j = m - 1; j >= 0; j--) {
+                int multiply = (num1.charAt(i) - '0') * (num2.charAt(j) - '0');
+                int unitIndex = i + j + 1;
+                int tensIndex = i + j;
+                // get sum for current multiplication step
+                int sum = numArr[unitIndex] + multiply;
+
+                // WARNING: unit digit will be a new number, but tens digit must be accumulation with previous value
+                numArr[unitIndex] = sum % 10;
+                numArr[tensIndex] += sum / 10;
             }
         }
 
-        StringBuilder resultStr = new StringBuilder();
-        boolean ifLeadingZero = true;
-        for (int i = 0; i < resultVal.length; i++) {
-            if (resultVal[i] == 0 && ifLeadingZero) {
+        // WARNING: DO NOT FORGET to delete all leading zeros in result num
+        StringBuilder sb = new StringBuilder();
+        boolean isLeadingZero = true;
+        for (int digit : numArr) {
+            if (digit == 0 && isLeadingZero) {
                 continue;
             }
             else {
-                resultStr.append(resultVal[i]);
-                ifLeadingZero = false;
+                isLeadingZero = false;
+                sb.append(digit);
             }
         }
-        if (resultStr.length() == 0) {
-            return "0";
-        }
-        else {
-            return resultStr.toString();
-        }
+        // corner case: if result is equal to 0
+        return sb.length() == 0 ? "0" : sb.toString();
     }
 }
