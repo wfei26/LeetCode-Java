@@ -21,6 +21,7 @@ public class A015_3Sum {
         if (nums == null || nums.length == 0) {
             return results;
         }
+
         //sort the array because it is easier to deduplicate
         Arrays.sort(nums);
         for (int i = 0; i < nums.length - 2; i++) {
@@ -28,24 +29,27 @@ public class A015_3Sum {
                 int twoSum = 0 - nums[i];
                 for (int low = i + 1, high = nums.length - 1; low < high;) {
                     if (nums[low] + nums[high] == twoSum) {
-                        //we found correct sum, add to results
                         results.add(Arrays.asList(nums[i], nums[low], nums[high]));
-                        //deduplicate
+
+                        // WARNING: deduplicate step MUST put inside of  this if statement after adding result, since
+                        // we do not want to miss some cases with same adding elements, eg: [x, 1, 1]
                         while (low < high && nums[low] == nums[low + 1]) {
                             low++;
                         }
                         while (low < high && nums[high] == nums[high - 1]) {
                             high--;
                         }
-                        //used both of two numbers, move both of two indexes
+
+                        // used both of two numbers, move both of two indexes
                         low++;
                         high--;
                     }
-                    // if sum is greater than target, we need a smaller number
+
+                    // sum is too big
                     else if (nums[low] + nums[high] > twoSum) {
                         high--;
                     }
-                    //if sum is less than target, we need a grater number
+                    // sum is too small
                     else {
                         low++;
                     }
