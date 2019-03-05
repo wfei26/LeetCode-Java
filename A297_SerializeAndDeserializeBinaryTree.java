@@ -39,6 +39,7 @@ public class A297_SerializeAndDeserializeBinaryTree {
         preOrderPrint(curNode.right);
     }
 
+    int curIndex = 0;
     // Encodes a tree to a single string.
     public String serialize(TreeNode root) {
         if (root == null) {
@@ -50,14 +51,14 @@ public class A297_SerializeAndDeserializeBinaryTree {
         return result.substring(0, result.length() - 1);
     }
 
-    //preorder traversal template
+    // preorder traversal
     public void serializeHelper(TreeNode curNode, StringBuilder result) {
-        //recursion exit
         if (curNode == null) {
             result.append("N,");
+            return;
         }
         else {
-            result.append(String.valueOf(curNode.val) + ",");
+            result.append(curNode.val + ",");
             serializeHelper(curNode.left, result);
             serializeHelper(curNode.right, result);
         }
@@ -65,29 +66,22 @@ public class A297_SerializeAndDeserializeBinaryTree {
 
     // Decodes your encoded data to tree.
     public TreeNode deserialize(String data) {
-        //use queue to store split node, then we can build tree again by preorder traversal
-        //here, we pass an array with length 1 instead of int value,
-        //because array is pass by reference, then we can recursively change values
-        TreeNode newTree = deserializeHelper(data.split(","), new int[1]);
+        // we can build tree again by preorder traversal
+        TreeNode newTree = deserializeHelper(data.split(","));
         return newTree;
     }
 
-    public TreeNode deserializeHelper(String[] nodeList, int[] curIndex) {
-        //WARNING: USE .equals() at here
-        if (nodeList[curIndex[0]].equals("N")) {
-            curIndex[0]++;
+    public TreeNode deserializeHelper(String[] nodeList) {
+        if (nodeList[curIndex].equals("N")) {
+            curIndex++;
             return null;
         }
-        //WARNING: MUST USE else at here
-        //different with other normal recursive call, we can only enter one condition at here
-        //either null or valid value because we only poll one item from queue for each recursion
-        else {
-            TreeNode newNode = new TreeNode(Integer.valueOf(nodeList[curIndex[0]]));
-            //here, we only need to plus 1 for traversal index one time per single recursive call
-            curIndex[0]++;
-            newNode.left = deserializeHelper(nodeList, curIndex);
-            newNode.right = deserializeHelper(nodeList, curIndex);
-            return newNode;
-        }
+
+        TreeNode root = new TreeNode(Integer.valueOf(nodeList[curIndex]));
+        // we only need to plus 1 for traversal index one time per single recursive call
+        curIndex++;
+        root.left = deserializeHelper(nodeList);
+        root.right = deserializeHelper(nodeList);
+        return root;
     }
 }
