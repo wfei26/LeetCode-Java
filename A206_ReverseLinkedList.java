@@ -25,6 +25,7 @@ public class A206_ReverseLinkedList {
         return dummy.next;
     }
 
+    /** Solution 1: iteration */
     public ListNode reverseList(ListNode head) {
         ListNode newHead = null;
         while (head != null) {
@@ -34,5 +35,21 @@ public class A206_ReverseLinkedList {
             head = nextNode;
         }
         return newHead;
+    }
+
+    /** Solution 2: recursion */
+    public ListNode reverseList2(ListNode head) {
+        /* recursive solution */
+        return helper(head, null);
+    }
+
+    private ListNode helper(ListNode head, ListNode newHead) {
+        // once we reach the end of linked list, return the new head as our new linked list
+        if (head == null) {
+            return newHead;
+        }
+        ListNode nextNode = head.next;
+        head.next = newHead;
+        return helper(nextNode, head);
     }
 }

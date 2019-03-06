@@ -44,35 +44,25 @@ public class A023_MergeKSortedLists {
         }
 
         //use a PQ to find min head of every list
-        PriorityQueue<ListNode> heap = new PriorityQueue<>(lists.length, new myComparator());
-        for (int i = 0; i < lists.length; i++) {
-            //DO NOT FORGET to check null condition before adding to PQ!
-            if (lists[i] != null) {
-                heap.offer(lists[i]);
+        PriorityQueue<ListNode> heap = new PriorityQueue<>((a, b) -> (a.val - b.val));
+        for (ListNode list : lists) {
+            // WARNING: DO NOT FORGET to check null condition before adding to PQ!
+            if (list != null) {
+                heap.offer(list);
             }
         }
 
         ListNode dummy = new ListNode(-1);
         ListNode curNode = dummy;
         while (!heap.isEmpty()) {
-            //get the min node from PQ, and then add next node from the list
-            //with popped head into the PQ ---> O(lgn)
             ListNode curMinNode = heap.poll();
             if (curMinNode.next != null) {
                 heap.offer(curMinNode.next);
             }
-            //connect popped min node to the result linked list
+            // append curMinNode to the result list
             curNode.next = curMinNode;
             curNode = curNode.next;
         }
         return dummy.next;
-    }
-
-    //since ListNode is not primitive type, we need to create a comparator
-    //class with ListNode type for PQ
-    public class myComparator implements Comparator<ListNode> {
-        public int compare(ListNode a, ListNode b) {
-            return a.val - b.val;
-        }
     }
 }
