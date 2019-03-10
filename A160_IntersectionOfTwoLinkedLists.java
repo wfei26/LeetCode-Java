@@ -23,23 +23,13 @@ public class A160_IntersectionOfTwoLinkedLists {
         }
     }
 
+    /** len of A + len of B = len of B + len of A: traverse two linked list simultaneously, if the any linked list
+     * reach the end (null), start from another list to continue. Same as the longer one. It is kind of like connect
+     * two linked list together, and we have two same list. Then they must meet at some point */
     public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
-        if (headA == null || headB == null) {
-            return null;
-        }
+        ListNode p1 = headA;
+        ListNode p2 = headB;
 
-        ListNode p1 = headA, p2 = headB;
-        /*
-        * we use two pass to traverse both of two linked list
-        * 1. in the first pass, we find the length difference between two lists
-        *   - if one of them reaches the end earlier then reuse it by moving it to the beginning of other list
-        *   - once both of them go through reassigning, we will start the second pass since they are equal distance
-        *   to the intersection point
-        * 2. in the second pass, start traversing two list simultaneously until they reach the same node
-        *   - if two linked list intersects, the meeting point in second iteration must be the intersection point
-        *   - if the two linked lists have no intersection at all, then the meeting pointer in second iteration
-        *   must be the tail node of both lists, which is null
-        * */
         while (p1 != p2) {
             if (p1 == null) {
                 p1 = headB;

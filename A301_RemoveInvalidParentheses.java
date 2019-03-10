@@ -11,84 +11,73 @@ public class A301_RemoveInvalidParentheses {
         }
     }
 
+    /** count number of unmatched left parentheses and unmatched right parentheses. Then use dfs recursion to try to
+     * delete every possible index to generate a new string, and then check if new string is valid string */
     public List<String> removeInvalidParentheses(String s) {
-        List<String> results = new ArrayList<>();
-        if (s == null) {
-            return results;
-        }
-
-        // count how many invalid parentheses we need to remove
-        int numOfLeft = 0;
-        int numOfRight = 0;
+        int leftUnmatch = 0;
+        int rightUnmatch = 0;
         for (char c : s.toCharArray()) {
             if (c == '(') {
-                numOfLeft++;
+                leftUnmatch++;
             }
             else if (c == ')') {
-                // case: we have ")" without any "(" before it
-                if (numOfLeft == 0) {
-                    numOfRight++;
+                if (leftUnmatch == 0) {
+                    rightUnmatch++;
                 }
                 else {
-                    numOfLeft--;
+                    leftUnmatch--;
                 }
             }
         }
 
-        dfs(results, s, numOfLeft, numOfRight, 0);
-        return results;
+        System.out.println(leftUnmatch + " " + rightUnmatch);
+        List<String> result = new ArrayList<>();
+        dfs(result, s, leftUnmatch, rightUnmatch, 0);
+        return result;
     }
 
-    public void dfs(List<String> results, String s, int leftCount, int rightCount, int index) {
-        // recursion exit: if all invalid left and right parentheses have already been removed
-        if (leftCount == 0 && rightCount == 0 && isValid(s)) {
-            results.add(s);
+    private void dfs(List<String> result, String s, int leftUnmatch, int rightUnmatch, int index) {
+        // recursion exit: if both of left and right unmatched parentheses have been matched, and current string is
+        // a valid parentheses string, it is a correct candidate
+        if (leftUnmatch == 0 && rightUnmatch == 0 && isValid(s)) {
+            result.add(s);
             return;
         }
 
-
         for (int i = index; i < s.length(); i++) {
-            if (s.charAt(i) == '(' || s.charAt(i) == ')') {
-                // deduplicate if we have "((((("
-                if (i != index && s.charAt(i) == s.charAt(i - 1)) {
-                    continue;
-                }
+            if (i != index && s.charAt(i) == s.charAt(i - 1)) {
+                continue;
+            }
 
-                // remove current character and try dfs for the rest of string
-                String tempStr = s.substring(0, i) + s.substring(i + 1);
+            // delete current character to form a new string
+            String tempStr = s.substring(0, i) + s.substring(i + 1);
 
-                // DO NOT FORGET to determine value of leftCount and rightCount, since we need to know
-                // if we still have invalid parentheses left after current recursive step
-
-                // pruning: it is not possible for leftCount == 0 && rightCount == 0 at here
-                // but may have the condition if leftCount == 0 || rightCount == 0
-                // so we can check the leftCount and rightCount condition to prune
-                if (leftCount > 0 && s.charAt(i) == '(') {
-                    dfs(results, tempStr, leftCount - 1, rightCount, i);
-                }
-                else if (rightCount > 0 && s.charAt(i) == ')') {
-                    dfs(results, tempStr, leftCount, rightCount - 1, i);
-                }
+            // if we still have quota for deleting left parentheses or right parentheses, try next dfs recursion
+            if (leftUnmatch > 0 && s.charAt(i) == '(') {
+                // since we already -1 for next recursion index, we DO NOT need  to use i+1 as parameter for next recursion
+                dfs(result, tempStr, leftUnmatch - 1, rightUnmatch, i);
+            }
+            else if (rightUnmatch > 0 && s.charAt(i) == ')') {
+                dfs(result, tempStr, leftUnmatch, rightUnmatch - 1, i);
             }
         }
     }
 
-
-    public boolean isValid(String s) {
-        int count = 0;
+    private boolean isValid(String s) {
+        int match = 0;
         for (char c : s.toCharArray()) {
             if (c == '(') {
-                count++;
+                match++;
             }
             else if (c == ')') {
-                count--;
-            }
-            // corner case: ")("
-            if (count < 0) {
-                return false;
+                if (match == 0) {
+                    return false;
+                }
+                else {
+                    match--;
+                }
             }
         }
-
-        return count == 0;
+        return match == 0;
     }
 }

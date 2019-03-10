@@ -12,46 +12,42 @@ public class A140_WordBreakII {
     }
 
     public List<String> wordBreak(String s, List<String> wordDict) {
-        List<String> results = new ArrayList<>();
-        if (s == null || s.length() == 0) {
-            return results;
+        if(s.length() == 0) {
+            return new ArrayList<>();
         }
-        return dfs(s, wordDict, new HashMap<>());
+
+        Set<String> set = new HashSet<>();
+        for (String word : wordDict) {
+            set.add(word);
+        }
+        return dfs(s, set, new HashMap<>());
     }
 
-    public List<String> dfs(String s, List<String> wordDict, Map<String, List<String>> memo) {
-        // prune: retrieve saved results from memo if s occurred before
-        if (memo.containsKey(s)) {
-            return memo.get(s);
+    /** break the sentence into two part, check whether set contains first part. If so, recursively check the second part */
+    public List<String> dfs(String s, Set<String> set, Map<String, List<String>> map) {
+        // retrieve memo from map cache
+        if(map.containsKey(s)) {
+            return map.get(s);
         }
 
-        List<String> result = new ArrayList<>();
-        // base case
-        if (s.length() == 0) {
-            result.add("");
-            return result;
+        List<String> result = new ArrayList<String>();
+        // base case: the leaf level (represents the last word of sentence)
+        if(set.contains(s)) {
+            result.add(s);
         }
 
-        // traverse dictionary, try all prefix possibilities
-        for (String word : wordDict) {
-            // IMPORTANT: s.startWith(String preStr) will return true if preStr can be a prefix of string s
-            if (s.startsWith(word)) {
-                // dfs recursion will return all possible combinations of suffix of string s (substring except word)
-                // eg: for substring "applepenapple", it will return {"apple pen apple", "applepen apple"}
-                List<String> suffixCombinations = dfs(s.substring(word.length()), wordDict, memo);
-                // combine all suffix with prefix to form the final string
-                for (String suffix : suffixCombinations) {
-                    if (suffix != "") {
-                        result.add(word + " " + suffix);
-                    }
-                    else {
-                        result.add(word);
-                    }
+        // try every possible prefix string, and recursively check postfix string
+        for(int i = 1 ; i < s.length() ; i++) {
+            String prefix = s.substring(0, i);
+            if(set.contains(prefix)) {
+                List<String> tempList = dfs(s.substring(i), set, map);
+                for(int j = 0 ; j < tempList.size() ; j++) {
+                    result.add(prefix + " " + tempList.get(j));
                 }
             }
         }
-        // store results in memo
-        memo.put(s, result);
+        // update memo cache
+        map.put(s , result);
         return result;
     }
 }

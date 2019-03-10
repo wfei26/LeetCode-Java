@@ -1,15 +1,12 @@
 import java.util.*;
 
-public class A207_CourseSchedule {
+public class A210_CourseScheduleII {
     public static void main(String[] args) {
-        A207_CourseSchedule solution = new A207_CourseSchedule();
-        int[][] input = {{1, 0}, {2, 1}};
-        boolean output = solution.canFinish(3, input);
-        System.out.println(output);
+        A210_CourseScheduleII solution = new A210_CourseScheduleII();
     }
 
     /** USe topological sort with BFS to traverse the entire graph (start from the course with 0 indegree) */
-    public boolean canFinish(int numCourses, int[][] prerequisites) {
+    public int[] findOrder(int numCourses, int[][] prerequisites) {
         // build graph: use adjacent list to reduce BFS traversal complexity
         Map<Integer, List<Integer>> graph = new HashMap<>();
         int[] indegree = new int[numCourses];
@@ -28,10 +25,11 @@ public class A207_CourseSchedule {
             }
         }
 
+        int[] result = new int[numCourses];
         int count = 0;
         while (!queue.isEmpty()) {
             int curCourse = queue.poll();
-            count++;
+            result[count++] = curCourse;
             // if graph has neighbors, reduce indegree value of all neighbors by 1
             if (graph.containsKey(curCourse)) {
                 List<Integer> neighbors = graph.get(curCourse);
@@ -45,6 +43,6 @@ public class A207_CourseSchedule {
             }
         }
         // final count must be same as number of course
-        return count == numCourses;
+        return count == numCourses ? result : new int[0];
     }
 }

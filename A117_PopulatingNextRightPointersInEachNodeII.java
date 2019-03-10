@@ -2,66 +2,63 @@ public class A117_PopulatingNextRightPointersInEachNodeII {
     public static void main(String[] args) {
         A117_PopulatingNextRightPointersInEachNodeII solution = new A117_PopulatingNextRightPointersInEachNodeII();
         int[] myInputs = {1,2,3,4,5,6,7};
-        TreeLinkNode myTree = solution.sortedArrayToBST(myInputs);
+        Node myTree = solution.sortedArrayToBST(myInputs);
         solution.connect(myTree);
     }
 
-    public TreeLinkNode sortedArrayToBST(int[] nums) {
+    public Node sortedArrayToBST(int[] nums) {
         if (nums.length == 0) {
         }
-        TreeLinkNode newTree = helpers(nums, 0, nums.length - 1);
+        Node newTree = helpers(nums, 0, nums.length - 1);
         return newTree;
     }
 
-    public TreeLinkNode helpers(int[] num, int low, int high) {
+    public Node helpers(int[] num, int low, int high) {
         if (low > high) {
             return null;
         }
         int mid = low + (high - low) / 2;
-        TreeLinkNode newNode = new TreeLinkNode(num[mid]);
+        Node newNode = new Node(num[mid]);
         newNode.left = helpers(num, low, mid - 1);
         newNode.right = helpers(num, mid + 1, high);
         return newNode;
     }
 
-    public void connect(TreeLinkNode root) {
+    public Node connect(Node root) {
         if (root == null) {
-            return;
+            return null;
         }
 
-        //initialize a pointer to traverse each node on the same level by the order from left to right
-        TreeLinkNode curParent = root;
-        while (curParent != null) {
-            //use dummy head to connect every start node of each level
-            TreeLinkNode dummyHead = new TreeLinkNode(0);
-            //use curChild to traverse the location of current pointer on the same level
-            //(traverse linked list and connect them with each other on the same level)
-            TreeLinkNode curChild = dummyHead;
-            //if next level exists
+        Node parent = root;
+        while (parent != null) {
+            // curParent trace parent node on parent level
+            Node curParent = parent;
+            Node dummy = new Node(-1);
+            // curNode trace child node on child level
+            Node curNode = dummy;
             while (curParent != null) {
-                //if current parent node has left child
                 if (curParent.left != null) {
-                    curChild.next = curParent.left;
-                    curChild = curChild.next;
+                    curNode.next = curParent.left;
+                    curNode = curNode.next;
                 }
-                //if current parent node has right child
                 if (curParent.right != null) {
-                    curChild.next = curParent.right;
-                    curChild = curChild.next;
+                    curNode.next = curParent.right;
+                    curNode = curNode.next;
                 }
-                //traverse to next node
                 curParent = curParent.next;
             }
-            //point curParent to the start node of next level if it exists
-            curParent = dummyHead.next;
+            // WARNING: DO NOT FORGET to set dummy.next = null
+            parent = dummy.next;
+            dummy.next = null;
         }
+        return root;
     }
 
-    class TreeLinkNode {
+    class Node {
         int val;
-        TreeLinkNode left;
-        TreeLinkNode right;
-        TreeLinkNode next;
-        TreeLinkNode(int x) {val = x;}
+        Node left;
+        Node right;
+        Node next;
+        Node(int x) {val = x;}
     }
 }

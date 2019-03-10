@@ -10,34 +10,32 @@ public class A139_WordBreak {
         System.out.println(output);
     }
 
+    /**
+     * Sub-problem: dp[i] represents whether s.substring(0, i-1) can be segmented into a space-separated
+     * sequence of one or more dictionary words
+     * Base case: dp[0] = true;
+     * Recurrence relation: dp[i] = true if dp[k] && set.contains(s.substring(k, i)), 0 < k < i
+     * Return: dp[n]
+     * */
     public boolean wordBreak(String s, List<String> wordDict) {
-        if (s == null || s.length() == 0) {
-            return false;
+        Set<String> set = new HashSet();
+        for (String word : wordDict) {
+            set.add(word);
         }
 
-        Set<String> dictionary = new HashSet<>();
-        for (String item : wordDict) {
-            dictionary.add(item);
-        }
-
-        int n = s.length();
-        //dp[i] represents if s.substring(0, i-1) can be segmented into a space-separated
-        //sequence of one or more dictionary words
-        boolean[] dp = new boolean[n + 1];
+        boolean[] dp = new boolean[s.length() + 1];
         dp[0] = true;
-        //loop right pointer from 1 to n
-        for (int i = 1; i <= n; i++) {
-            //loop left pointer from 0 to i
+
+        for (int i = 1; i <= s.length(); i++) {
             for (int k = 0; k < i; k++) {
-                //if previous substring from 0 to k - 1 is true
-                //and current substring from k to i - 1 is also true
-                //we set dp[i] to true, and jump to next iteration
-                if (dp[k] && dictionary.contains(s.substring(k, i))) {
+                // if previous substring from 0 to k - 1 is true and current substring from k to i - 1 is also true
+                // we set dp[i] to true, and jump to next iteration
+                if (dp[k] && set.contains(s.substring(k, i))) {
                     dp[i] = true;
                     break;
                 }
             }
         }
-        return dp[n];
+        return dp[s.length()];
     }
 }

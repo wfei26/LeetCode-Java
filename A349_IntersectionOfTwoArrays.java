@@ -1,5 +1,4 @@
-import java.util.Arrays;
-import java.util.HashSet;
+import java.util.*;
 
 public class A349_IntersectionOfTwoArrays {
     public static void main(String[] args) {
@@ -13,24 +12,24 @@ public class A349_IntersectionOfTwoArrays {
     }
 
     public int[] intersection(int[] nums1, int[] nums2) {
-        int[] result = new int[Math.max(nums1.length, nums2.length)];
+        Set<Integer> set = new HashSet<>();
+        List<Integer> result = new ArrayList<>();
 
-        //set1 is used for storing distinct element from nums1
-        //set2 is used for deduplicate when find intersection between nums1 and nums2
-        HashSet<Integer> set1 = new HashSet<>();
-        HashSet<Integer> set2 = new HashSet<>();
         for (int num : nums1) {
-            set1.add(num);
+            set.add(num);
         }
 
-        int i = 0;
         for (int num : nums2) {
-            if (set1.contains(num) && set2.add(num)) {
-                result[i] = num;
-                i++;
+            if (set.contains(num)) {
+                result.add(num);
+                set.remove(num);
             }
         }
-        //return subarray from 0 to i
-        return Arrays.copyOfRange(result, 0, i);
+
+        int[] resArr = new int[result.size()];
+        for (int i = 0; i < result.size(); i++) {
+            resArr[i] = result.get(i);
+        }
+        return resArr;
     }
 }

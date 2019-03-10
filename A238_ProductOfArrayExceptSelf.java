@@ -8,28 +8,24 @@ public class A238_ProductOfArrayExceptSelf {
         }
     }
 
+    /** Scan from left to right ot get pre-product array, and then scan from right to left to get result */
     public int[] productExceptSelf(int[] nums) {
-        int len = nums.length;
-        int[] results = new int[len];
+        int n = nums.length;
+        int[] result = new int[n];
+        result[0] = 1;
 
-        //results[i] stores preProduct from 0 to i - 1 except i itself
-        //and then update to totalProduct after second iteration
-        //DO NOT FORGET to initialize results[0] to 1 because of product
-        results[0] = 1;
-
-        //calculate preProduct from left to right
-        for (int i = 1; i < len; i++) {
-            results[i] = results[i - 1] * nums[i - 1];
+        // results[i] stores preProduct from index 0 to index i - 1 except nums[i]
+        for (int i = 1; i < n; i++) {
+            result[i] = result[i - 1] * nums[i - 1];
         }
 
-        //right stores (previous state) right product except current number
-        int right = 1;
-
-        //calculate totalProduct from right to left based on preProduct that saved before
-        for (int i = len - 1; i >= 0; i--) {
-            results[i] *= right; //this right value is from previous state except current number
-            right *= nums[i]; //update current right product value
+        // rightProduct stores right product except current number
+        // WARNING: MUST initialize to 1
+        int rightProduct = 1;
+        for (int i = n - 1; i > 0; i--) {
+            rightProduct *= nums[i];
+            result[i - 1] *= rightProduct;
         }
-        return results;
+        return result;
     }
 }

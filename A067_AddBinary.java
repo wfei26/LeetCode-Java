@@ -8,10 +8,11 @@ public class A067_AddBinary {
     }
 
     public String addBinary(String a, String b) {
-        StringBuilder newStr = new StringBuilder();
+        int sum = 0;
         int carry = 0;
+        StringBuilder sb = new StringBuilder();
         for (int i = a.length() - 1, j = b.length() - 1; i >= 0 || j >= 0;) {
-            int sum = carry;
+            sum = carry;
             if (i >= 0) {
                 sum += a.charAt(i) - '0';
                 i--;
@@ -20,12 +21,15 @@ public class A067_AddBinary {
                 sum += b.charAt(j) - '0';
                 j--;
             }
-            newStr.append(sum % 2);
+            // WARNING: MUST get carry firstly, and then update sum secondly
             carry = sum / 2;
+            sum = sum % 2;
+            sb.append(sum);
         }
+        // corner case: the last adding still generate non-zero carry
         if (carry != 0) {
-            newStr.append(carry);
+            sb.append(1);
         }
-        return newStr.reverse().toString();
+        return sb.reverse().toString();
     }
 }

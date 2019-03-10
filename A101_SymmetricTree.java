@@ -29,16 +29,24 @@ public class A101_SymmetricTree {
         if (root == null) {
             return true;
         }
-        return helper(root.left, root.right);
+        return dfs(root.left, root.right);
     }
 
-    public boolean helper(TreeNode left, TreeNode right) {
-        if (left == null || right == null) {
-            return left == right;
+    private boolean dfs(TreeNode left, TreeNode right) {
+        if (left == null && right == null) {
+            return true;
         }
+
+        if (left == null || right == null) {
+            return false;
+        }
+
+        // IMPORTANT recursion exit: two input must be same
         if (left.val != right.val) {
             return false;
         }
-        return helper(left.left, right.right) && helper(left.right, right.left);
+
+        // use recursive call to control two nodes that need to be compared in next recursion
+        return dfs(left.left, right.right) && dfs(left.right, right.left);
     }
 }

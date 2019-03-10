@@ -1,8 +1,8 @@
 public class A065_ValidNumber {
     public static void main(String[] args) {
         A065_ValidNumber soliution = new A065_ValidNumber();
-        String input = ". 1";
-        boolean output = soliution.isNumber(input);
+        String input = " -5.231";
+        boolean output = soliution.isNumber2(input);
         System.out.println(output);
     }
 
@@ -54,5 +54,44 @@ public class A065_ValidNumber {
             }
         }
         return seenNumber && numberExistAfterPower;
+    }
+
+    /** Interview second version: without symbol e */
+    public boolean isNumber2(String s) {
+        if (s.length() == 0) {
+            return false;
+        }
+
+        // WARNING: DO NOT FORGET to remove space at front and end of string
+        s = s.trim();
+
+        boolean seenNumber = false;
+        boolean seenDot = false;
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) >= '0' && s.charAt(i) <= '9') {
+                seenNumber = true;
+            }
+
+            // only valid if we have not seen dot
+            else if (s.charAt(i) == '.') {
+                if (seenDot) {
+                    return false;
+                }
+                seenDot = true;
+            }
+
+            // only first position can have operand '-' or '+'
+            else if (s.charAt(i) == '-' || s.charAt(i) == '+') {
+                if (i != 0) {
+                    return false;
+                }
+            }
+
+            // if we see space between numerical numbers
+            else {
+                return false;
+            }
+        }
+        return seenNumber;
     }
 }
