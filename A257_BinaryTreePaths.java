@@ -12,26 +12,22 @@ public class A257_BinaryTreePaths {
 
     public List<String> binaryTreePaths(TreeNode root) {
         List<String> result = new ArrayList<>();
-        if (root == null) {
-            return result;
-        }
         dfs(result, "", root);
         return result;
     }
 
-    public void dfs(List<String> result, String curPath, TreeNode curNode) {
-        // we do not have to traverse to the very bottom until curNode == null
-        // since the last node has different status, compare with previous node, we have to separate it
+    // WARNING: DO NOT USE StringBuilder, since it will not remove temp result in recursion stack when backtracking
+    public void dfs(List<String> result, String str, TreeNode curNode) {
+        if (curNode == null) {
+            return;
+        }
         if (curNode.left == null && curNode.right == null) {
-            result.add(curPath + curNode.val);
+            result.add(str + curNode.val);
             return;
         }
 
-        if (curNode.left != null) {
-            dfs(result, curPath + curNode.val + "->", curNode.left);
-        }
-        if (curNode.right != null) {
-            dfs(result, curPath + curNode.val + "->", curNode.right);
-        }
+        str += curNode.val + "->";
+        dfs(result, str, curNode.left);
+        dfs(result, str, curNode.right);
     }
 }

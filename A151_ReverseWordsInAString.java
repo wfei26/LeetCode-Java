@@ -1,11 +1,16 @@
 public class A151_ReverseWordsInAString {
     public static void main(String[] args) {
         A151_ReverseWordsInAString solution = new A151_ReverseWordsInAString();
-        String input = "the sky is         blue";
+        String input = "the   sky     is         blue";
         String output = solution.reverseWords(input);
         System.out.println(output);
     }
 
+    /**
+     * Step 1: reverse the entire sentence
+     * Step 2: reverse words in the sentence
+     * Step 3: remove duplicate spaces at leading, trailing and inside the sentence
+     * */
     public String reverseWords(String s) {
         if (s == null || s.length() == 0) {
             return s;
@@ -14,14 +19,23 @@ public class A151_ReverseWordsInAString {
         int n = s.length();
         char[] strArr = s.toCharArray();
         int start = 0;
+
+        // step 1
         reverse(strArr, start, n - 1);
+
+        // step 2
         for (int i = 0; i < n; i++) {
             if (strArr[i] == ' ') {
+                // when there are consecutive spaces between two words, the reverse function will automatically
+                // skip these spaces since start > i - 1 in these conditions
                 reverse(strArr, start, i - 1);
                 start = i + 1;
             }
         }
+        // WARNING: DO NOT FORGET to reverse the last word after jumping out the loop
         reverse(strArr, start, n - 1);
+
+        // step 3
         return cleanSpaces(strArr, n);
     }
 
@@ -33,17 +47,29 @@ public class A151_ReverseWordsInAString {
         }
     }
 
-    // trim leading, trailing and multiple spaces
-    String cleanSpaces(char[] a, int n) {
-        int i = 0, j = 0;
+    // trim leading, trailing and multiple spaces by using array 覆盖式写法
+    String cleanSpaces(char[] arr, int n) {
+        // left pointer trace the new array that removed spaces, right pointer trace the original array with spaces
+        int left = 0, right = 0;
 
-        while (j < n) {
-            while (j < n && a[j] == ' ') j++;             // skip spaces
-            while (j < n && a[j] != ' ') a[i++] = a[j++]; // keep non spaces
-            while (j < n && a[j] == ' ') j++;             // skip spaces
-            if (j < n) a[i++] = ' ';                      // keep only one space
+        while (right < n) {
+            while (right < n && arr[right] == ' ') {
+                right++; // skip spaces
+            }
+
+            while (right < n && arr[right] != ' ') {
+                arr[left++] = arr[right++]; // keep non spaces
+            }
+
+            while (right < n && arr[right] == ' ') {
+                right++; // skip spaces
+            }
+
+            if (right < n) {
+                arr[left++] = ' '; // keep only one space
+            }
         }
 
-        return new String(a).substring(0, i);
+        return new String(arr).substring(0, left);
     }
 }

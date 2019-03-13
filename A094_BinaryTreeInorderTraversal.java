@@ -32,26 +32,27 @@ public class A094_BinaryTreeInorderTraversal {
     }
 
     public List<Integer> inorderTraversal(TreeNode root) {
-        List<Integer> results = new ArrayList<>();
+        List<Integer> result = new ArrayList<>();
         if (root == null) {
-            return results;
+            return result;
         }
 
         Stack<TreeNode> stack = new Stack<>();
         TreeNode curNode = root;
+
+        // WARNING: REMEMBER the condition of while loop!!!
         while (curNode != null || !stack.isEmpty()) {
-            //Find the most left node (until its left subtree is null),
-            //meanwhile, push every traversed nodes into stack
+            // left
             while (curNode != null) {
                 stack.push(curNode);
                 curNode = curNode.left;
             }
-            //Set curNode to top element in stack and put the value into result list
+            // root
             curNode = stack.pop();
-            results.add(curNode.val);
-            //Set curNode to right subtree (to traverse left most node in right subtree in next iteration)
+            result.add(curNode.val);
+            // right
             curNode = curNode.right;
         }
-        return results;
+        return result;
     }
 }

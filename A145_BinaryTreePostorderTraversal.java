@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
 
@@ -31,24 +32,31 @@ public class A145_BinaryTreePostorderTraversal {
         return newNode;
     }
 
+    /** postorder is the reverse version of reversed preorder
+     * first reverse means we need to add every new number into the head of result linked list
+     * second reverse means we should change the order of traversal for "preorder" to right -> root -> left*/
     public List<Integer> postorderTraversal(TreeNode root) {
-        List<Integer> results = new ArrayList<>();
+        LinkedList<Integer> result = new LinkedList<>();
         if (root == null) {
-            return results;
+            return result;
         }
 
         Stack<TreeNode> stack = new Stack<>();
-        stack.push(root);
-        while (!stack.isEmpty()) {
-            TreeNode curNode = stack.pop();
-            results.add(0, curNode.val);
-            if (curNode.left != null) {
-                stack.push(curNode.left);
+        TreeNode curNode = root;
+
+        while (curNode != null || !stack.isEmpty()) {
+            // right
+            while (curNode != null) {
+                // reverse
+                result.addFirst(curNode.val);
+                stack.push(curNode);
+                curNode = curNode.right;
             }
-            if (curNode.right != null) {
-                stack.push(curNode.right);
-            }
+            // root
+            curNode = stack.pop();
+            // left
+            curNode = curNode.left;
         }
-        return results;
+        return result;
     }
 }

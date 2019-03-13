@@ -29,20 +29,24 @@ public class A129_SumRootToLeafNumbers {
         if (root == null) {
             return 0;
         }
-        int result = dfsSum(root, 0);
-        return result;
+
+        return dfs(root, 0);
     }
 
-    public int dfsSum(TreeNode curNode, int sum) {
+    /** recursion exit: always return a path sum from a single path
+     * function exit: always return total path sum with both of left and right paths */
+    public int dfs(TreeNode curNode, int curSum) {
         if (curNode == null) {
             return 0;
         }
-        //exit: last level still do the same thing as well (DO NOT FORGET!!!)
+
+        // WARNING: DO NOT FORGET this recursion exit. Otherwise, we will always have zero in our result.
         if (curNode.left == null && curNode.right == null) {
-            return sum * 10 + curNode.val;
+            return curSum * 10 + curNode.val;
         }
-        //the sum until current level is equal to previous sum * 10 + curNode value
-        //then we need to use dfs to trace both of left and right subtree for each level
-        return dfsSum(curNode.left, sum * 10 + curNode.val) + dfsSum(curNode.right, sum * 10 + curNode.val);
+
+        int left = dfs(curNode.left, curSum * 10 + curNode.val);
+        int right = dfs(curNode.right, curSum * 10 + curNode.val);
+        return left + right;
     }
 }

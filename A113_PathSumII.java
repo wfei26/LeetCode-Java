@@ -6,7 +6,7 @@ public class A113_PathSumII {
         A113_PathSumII solution = new A113_PathSumII();
         int[] myInputs = {7,9,10,15,20};
         TreeNode myTree = solution.sortedArrayToBST(myInputs);
-        List<List<Integer>> myResults = solution.pathSum(myTree, 19);
+        List<List<Integer>> myResults = solution.pathSum(myTree, 25);
         for (int i = 0; i < myResults.size(); i++) {
             for (int j = 0; j < myResults.get(i).size(); j++) {
                 System.out.println(myResults.get(i).get(j));
@@ -33,29 +33,27 @@ public class A113_PathSumII {
     }
 
     public List<List<Integer>> pathSum(TreeNode root, int sum) {
-        List<List<Integer>> resultList = new ArrayList<>();
-        if (root == null) {
-            return resultList;
-        }
-        List<Integer> currentList = new ArrayList<>();
-        pathSumHelper(root, sum, resultList, currentList);
-        return resultList;
+        List<List<Integer>> result = new ArrayList<>();
+        dfs(result, new ArrayList<>(), sum, root);
+        return result;
     }
 
-    public void pathSumHelper(TreeNode root, int sum, List<List<Integer>> resultList, List<Integer> currentList) {
-        if (root == null) {
+    public void dfs(List<List<Integer>> result, List<Integer> tempList, int sum, TreeNode curNode) {
+        if (curNode == null) {
             return;
         }
-        currentList.add(root.val);
-        if (root.left == null && root.right == null && root.val == sum) {
-            resultList.add(new ArrayList<>(currentList));
-            currentList.remove(currentList.size() - 1);
+
+        if (curNode.left == null && curNode.right == null && curNode.val == sum) {
+            tempList.add(curNode.val);
+            result.add(new ArrayList<>(tempList));
+            // WARNING: DO NOT FORGET to remove the last adding element at here
+            tempList.remove(tempList.size() - 1);
             return;
         }
-        else {
-            pathSumHelper(root.left, sum - root.val, resultList, currentList);
-            pathSumHelper(root.right, sum - root.val, resultList, currentList);
-        }
-        currentList.remove(currentList.size() - 1);
+
+        tempList.add(curNode.val);
+        dfs(result, tempList, sum - curNode.val, curNode.left);
+        dfs(result, tempList, sum - curNode.val, curNode.right);
+        tempList.remove(tempList.size() - 1);
     }
 }

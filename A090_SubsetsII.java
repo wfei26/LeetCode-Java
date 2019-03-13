@@ -17,20 +17,26 @@ public class A090_SubsetsII {
     }
 
     public List<List<Integer>> subsetsWithDup(int[] nums) {
-        List<List<Integer>> myList = new ArrayList<>();
+        if (nums.length == 0) {
+            return new ArrayList<>();
+        }
+
+        // WARNING: DO NOT FORGET to sort to deduplicate!!!
         Arrays.sort(nums);
-        backtracking(myList, new ArrayList<>(), nums, 0);
-        return myList;
+        List<List<Integer>> result = new ArrayList<>();
+        dfs(result, new ArrayList<>(), nums, 0);
+        return result;
     }
 
-    public void backtracking(List<List<Integer>> myList, List<Integer> tempList, int[] nums, int pos) {
-        myList.add(new ArrayList<>(tempList));
+    public void dfs(List<List<Integer>> result, List<Integer> tempList, int[] nums, int pos) {
+        result.add(new ArrayList<>(tempList));
         for (int i = pos; i < nums.length; i++) {
+            // deduplicate
             if (i > pos && nums[i] == nums[i - 1]) {
                 continue;
             }
             tempList.add(nums[i]);
-            backtracking(myList, tempList, nums, i + 1);
+            dfs(result, tempList, nums, i + 1);
             tempList.remove(tempList.size() - 1);
         }
     }

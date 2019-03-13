@@ -21,6 +21,7 @@ public class A078_Subsets {
     }
 
     public void backtracking(List<List<Integer>> myList, List<Integer> tempList, int[] nums, int pos) {
+        // no condition for recursion exit in subsets problem
         myList.add(new ArrayList<>(tempList));
         for (int i = pos; i < nums.length; i++) {
             tempList.add(nums[i]);
