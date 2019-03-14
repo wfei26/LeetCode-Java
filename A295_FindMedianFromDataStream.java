@@ -29,6 +29,7 @@ public class A295_FindMedianFromDataStream {
     public void addNum(int num) {
         maxHeap.offer(num);
         minHeap.offer(maxHeap.poll());
+        // keep size of minHeap is always smaller than or equal to max heap
         if (minHeap.size() > maxHeap.size()) {
             maxHeap.offer(minHeap.poll());
         }
