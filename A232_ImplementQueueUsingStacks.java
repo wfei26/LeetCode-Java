@@ -10,37 +10,42 @@ public class A232_ImplementQueueUsingStacks {
         myStack.empty();
     }
 
-    Stack<Integer> queue;
+    Stack<Integer> stackA;
+    Stack<Integer> stackB;
 
     /** Initialize your data structure here. */
     public A232_ImplementQueueUsingStacks() {
-        queue = new Stack<>();
+        stackA = new Stack<>();
+        stackB = new Stack<>();
     }
 
     /** Push element x to the back of queue. */
     public void push(int x) {
-        Stack<Integer> tempStack = new Stack<>();
-        while (!queue.isEmpty()) {
-            tempStack.push(queue.pop());
-        }
-        queue.push(x);
-        while (!tempStack.isEmpty()) {
-            queue.push(tempStack.pop());
-        }
+        stackA.push(x);
     }
 
     /** Removes the element from in front of queue and returns that element. */
     public int pop() {
-        return queue.pop();
+        peek();
+        return stackB.pop();
     }
 
     /** Get the front element. */
+    /** Armotized O(1) */
     public int peek() {
-        return queue.peek();
+        if (empty()) {
+            return -1;
+        }
+        if (stackB.isEmpty()) {
+            while (!stackA.isEmpty()) {
+                stackB.push(stackA.pop());
+            }
+        }
+        return stackB.peek();
     }
 
     /** Returns whether the queue is empty. */
     public boolean empty() {
-        return queue.isEmpty();
+        return stackA.isEmpty() && stackB.isEmpty();
     }
 }

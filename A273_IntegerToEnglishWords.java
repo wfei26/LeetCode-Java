@@ -6,7 +6,11 @@ public class A273_IntegerToEnglishWords {
         System.out.println(output);
     }
 
-
+    /**
+     * A number less than 1000 will be a cycle. So we can separate a number into two cases: greater than 1000 and
+     * less than 1000. If greater than 1000, we just need to loop several times until num is equal to 0.
+     * For the case less than 1000, we can encapsulate to another function and recursively build string.
+     * */
     String[] lessThanTwenty = {"", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten",
             "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"};
     String[] tens = {"", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"};
@@ -22,7 +26,7 @@ public class A273_IntegerToEnglishWords {
                 //append new string to the front of previous generated string
                 result = smallNumConverter(num % 1000) + thousands[i] + " " + result;
             }
-            num = num / 1000;
+            num /= 1000;
         }
         //DO NOT FORGET to delete space from start and end of result string
         return result.trim();
