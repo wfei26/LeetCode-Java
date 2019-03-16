@@ -5,7 +5,7 @@ import java.util.List;
 public class A438_FindAllAnagramsInAString {
     public static void main(String[] args) {
         A438_FindAllAnagramsInAString solution = new A438_FindAllAnagramsInAString();
-        String strA = "cbaebabacd";
+        String strA = "cbbaebabacd";
         String strB = "abc";
         List<Integer> myResults = solution.findAnagrams(strA, strB);
         for (int i = 0; i < myResults.size(); i++) {

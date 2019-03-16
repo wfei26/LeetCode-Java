@@ -11,20 +11,22 @@ public class A270_ClosestBinarySearchTreeValue {
         System.out.println(output);
     }
 
+    /** Iteratively traverse the BST, try to minimize candidate range to make every new candidate as closer as target */
     public int closestValue(TreeNode root, double target) {
         int result = root.val;
-        // DO NOT THINK TOO MUCH! DO NOT OVER-THINKING!
-        // just compare new difference with previous difference and then traverse the tree until
-        // we reach the leaf node
-        while (root != null) {
-            if (Math.abs(root.val - target) < Math.abs(result - target)) {
-                result = root.val;
+        TreeNode curNode = root;
+        while (curNode != null) {
+            if (Math.abs(curNode.val - target) < Math.abs(result - target)) {
+                result = curNode.val;
             }
-            if (root.val > target) {
-                root = root.left;
+
+            // all numbers in right subtree will be eliminated
+            if (curNode.val > target) {
+                curNode = curNode.left;
             }
+            // all numbers in left subtree will be eliminated
             else {
-                root = root.right;
+                curNode = curNode.right;
             }
         }
         return result;
