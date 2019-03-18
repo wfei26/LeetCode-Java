@@ -5,7 +5,8 @@ public class A509_FibonacciNumber {
         System.out.println(output);
     }
 
-    public int fib(int N) {
+    // solution 1: iterative with DP
+    public int fib1(int N) {
         if (N == 0) {
             return 0;
         }
@@ -18,5 +19,20 @@ public class A509_FibonacciNumber {
             dp[i] = dp[i - 1] + dp[i - 2];
         }
         return dp[N];
+    }
+
+    // solution 2: recursion with memo
+    int[] memo = new int[31];
+    public int fib(int N) {
+        if (memo[N] != 0) {
+            return memo[N];
+        }
+        if (N == 0 || N == 1) {
+            return N;
+        }
+
+        int curRes = fib(N - 1) + fib(N - 2);
+        memo[N] = curRes;
+        return curRes;
     }
 }
