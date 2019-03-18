@@ -8,15 +8,16 @@ public class A419_BattleshipsInABoard {
         System.out.println(res);
     }
 
+    /** only count every 'X' that does not have another 'X' on the top and left, so that we can control duplicate
+     * battleships. Also, the problem said it will not have a test case that have two battleships connects together */
     public int countBattleships(char[][] board) {
-        int m = board.length;
-        if (m==0) return 0;
-        int n = board[0].length;
+        if (board.length == 0) {
+            return 0;
+        }
 
-        int count=0;
-
-        for (int i=0; i<m; i++) {
-            for (int j=0; j<n; j++) {
+        int result = 0;
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[0].length; j++) {
                 if (board[i][j] == '.') {
                     continue;
                 }
@@ -27,11 +28,10 @@ public class A419_BattleshipsInABoard {
                     continue;
                 }
                 else {
-                    count++;
+                    result++;
                 }
             }
         }
-
-        return count;
+        return result;
     }
 }
