@@ -42,6 +42,7 @@ public class A199_BinaryTreeRightSideView {
             return;
         }
 
+        // once we add new item, we will recursively go to next level
         if (curLevel == myList.size()) {
             myList.add(curNode.val);
         }

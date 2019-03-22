@@ -95,22 +95,17 @@ public class A126_WordLadderII {
     public void dfs(List<List<String>> result, Map<String, Set<String>> graph, Map<String, Integer> distance,
                     String endWord, String curWord, List<String> tempList) {
         if (curWord.equals(endWord)) {
-            tempList.add(curWord);
             result.add(new ArrayList<>(tempList));
-            tempList.remove(tempList.size() - 1);
             return;
-            // WARNING: DO NOT RETURN at here, otherwise, the recursion will back to previous for loop. But we want to
-            // go to the position after the loop, which is the position where we want to remove last word of list
         }
 
-        tempList.add(curWord);
         for (String nextWord : graph.get(curWord)) {
             // only if next node is on the minimum path to the endWord, we can traverse it
             if (distance.get(nextWord) == distance.get(curWord) + 1) {
+                tempList.add(nextWord);
                 dfs(result, graph, distance, endWord, nextWord, tempList);
-
+                tempList.remove(tempList.size() - 1);
             }
         }
-        tempList.remove(tempList.size() - 1);
     }
 }

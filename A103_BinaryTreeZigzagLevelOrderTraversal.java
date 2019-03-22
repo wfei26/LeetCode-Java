@@ -35,35 +35,40 @@ public class A103_BinaryTreeZigzagLevelOrderTraversal {
         return newNode;
     }
 
+    /** use standard BFS to traversal the tree, but reversely adding element into result list in every odd level */
     public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
-        List<List<Integer>> results = new ArrayList<>();
+        List<List<Integer>> result = new ArrayList<>();
         if (root == null) {
-            return results;
+            return result;
         }
 
         Queue<TreeNode> queue = new LinkedList<>();
         queue.offer(root);
         boolean reverse = false;
+
         while (!queue.isEmpty()) {
-            List<Integer> curList = new ArrayList<>();
-            int curLevelSize = queue.size();
-            for (int i = 0; i < curLevelSize; i++) {
-                if (queue.peek().left != null) {
-                    queue.offer(queue.peek().left);
-                }
-                if (queue.peek().right != null) {
-                    queue.offer(queue.peek().right);
-                }
+            int size = queue.size();
+            // use linkedlist to control time complexity of addFirst to O(1)
+            LinkedList<Integer> tempList = new LinkedList<>();
+            for (int i = 0; i < size; i++) {
+                TreeNode curNode = queue.poll();
                 if (reverse) {
-                    curList.add(0, queue.poll().val);
+                    tempList.addFirst(curNode.val);
                 }
                 else {
-                    curList.add(queue.poll().val);
+                    tempList.add(curNode.val);
+                }
+
+                if (curNode.left != null) {
+                    queue.offer(curNode.left);
+                }
+                if (curNode.right != null) {
+                    queue.offer(curNode.right);
                 }
             }
+            result.add(tempList);
             reverse = !reverse;
-            results.add(curList);
         }
-        return results;
+        return result;
     }
 }

@@ -8,6 +8,8 @@ public class A013_RomanToInteger {
         System.out.println(myResult);
     }
 
+    /** put all special number mapping relationship into a map, then traverse the input number from end to start.
+     * If left roman number is smaller than right, we subtract it, otherwise, we add it up */
     public int romanToInt(String s) {
         if (s == null || s.length() == 0) {
             return 0;
