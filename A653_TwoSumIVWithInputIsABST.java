@@ -28,6 +28,8 @@ public class A653_TwoSumIVWithInputIsABST {
         return newNode;
     }
 
+    /** use inorder traversal to traverse bst, and store sorted nums into array, then use two pointers (from start
+     * and end) to find two sum from the array */
     public boolean findTarget(TreeNode root, int k) {
         if (root == null) {
             return false;

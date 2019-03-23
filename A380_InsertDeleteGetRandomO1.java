@@ -41,9 +41,8 @@ public class A380_InsertDeleteGetRandomO1 {
     /** Inserts a value to the set. Returns true if the set did not already contain the specified element. */
     public boolean insert(int val) {
         if(!map.containsKey(val)) {
-            //Little trick: use nums.size() (before adding) as position of input value
-            map.put(val, nums.size());
             nums.add(val);
+            map.put(val, nums.size() - 1);
             return true;
         }
         else {
