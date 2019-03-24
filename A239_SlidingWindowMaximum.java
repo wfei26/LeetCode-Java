@@ -1,17 +1,67 @@
 import javax.naming.spi.NamingManager;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 public class A239_SlidingWindowMaximum {
     public static void main(String[] args) {
         A239_SlidingWindowMaximum solution = new A239_SlidingWindowMaximum();
-        int[] myInputs = {1,3,-1,-3,5,3,6,7};
-        int size = 3;
+        int[] myInputs = {2,1,3,4,6,3,8,9,10,12,56};
+        int size = 4;
         int[] myResults = solution.maxSlidingWindow(myInputs, size);
         for (int i = 0; i < myResults.length; i++) {
             System.out.println(myResults[i]);
         }
     }
 
-    /*
+    /**
+     * Solution 1: Deque
+     *
+     * Use deque to simulate a window with size k, insert every array INDEX into deque. We have two rules:
+     * 1. if the difference between current index and max index in deque, poll out the index from deque since
+     * current window cannot access that index
+     * 2. if current element is grater than any element (the value on that index) in deque, poll out all smaller
+     * index, then add current index into deque
+     *
+     * As a result elements in the deque are ordered in both sequence in array and their value. At each step the
+     * head of the deque is the max element in [i-(k-1),i]
+     *
+     * eg: for the case 2,1,3,4,6,3,15,9,10,12,10
+     * deque (store index):
+     * 0   =>   0, 1   =>   2   =>   3   =>   4   =>   4, 5   =>   6   =>   6, 7   =>   6, 8   =>   6, 9   =>   10
+     * */
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        if (nums == null || k <= 0) {
+            return new int[0];
+        }
+
+        int[] result = new int[nums.length - k + 1];
+        int index = 0;
+
+        // store index
+        Deque<Integer> deque = new ArrayDeque<>();
+        for (int i = 0; i < nums.length; i++) {
+            // remove numbers out of range k
+            while (!deque.isEmpty() && deque.peek() < i - k + 1) {
+                deque.poll();
+            }
+
+            // remove smaller numbers in k range as they are useless
+            while (!deque.isEmpty() && nums[deque.peekLast()] < nums[i]) {
+                deque.pollLast();
+            }
+
+            // q contains index... r contains content
+            deque.offer(i);
+            if (i >= k - 1) {
+                result[index++] = nums[deque.peek()];
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Solution 2: two pre-processing array: left max and right max
+     *
      * For Example: A = [2,1,3,4,6,3,8,9,10,12,56], w=4
      *
      * Partition the array in blocks of size w=4. The last block may have less then w.
@@ -26,7 +76,7 @@ public class A239_SlidingWindowMaximum {
      * Sliding max at each position i in current window, sliding-max(i) = max{right_max(i), left_max(i+w-1)}
      * sliding_max = 4, 6, 6, 8, 9, 10, 12, 56
     * */
-    public int[] maxSlidingWindow(int[] nums, int k) {
+    public int[] maxSlidingWindow2(int[] nums, int k) {
         if (nums == null || nums.length == 0 || k == 0) {
             return new int[0];
         }
@@ -53,7 +103,7 @@ public class A239_SlidingWindowMaximum {
 
             // rightLocalMax saves left max bound of every sliding window
             int j = n - i - 1;
-            if (j % k == 0) {
+            if (j % k == k - 1) {
                 rightLocalMax[j] = nums[j];
             }
             else {
