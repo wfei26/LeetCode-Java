@@ -4,28 +4,13 @@ import java.util.List;
 public class A545_BoundaryOfBinaryTree {
     public static void main(String[] args) {
         A545_BoundaryOfBinaryTree solution = new A545_BoundaryOfBinaryTree();
-        int[] myInputs = {1,2,3,4,5};
-        TreeNode myTree = solution.sortedArrayToBST(myInputs);
+        TreeNode myTree = new TreeNode(1);
+        myTree.right = new TreeNode(2);
+        myTree.right.left = new TreeNode(3);
+        myTree.right.right = new TreeNode(4);
+
         List<Integer> myResult = solution.boundaryOfBinaryTree(myTree);
         System.out.println(myResult);
-    }
-
-    public TreeNode sortedArrayToBST(int[] nums) {
-        if (nums.length == 0) {
-        }
-        TreeNode newTree = helpers(nums, 0, nums.length - 1);
-        return newTree;
-    }
-
-    public TreeNode helpers(int[] num, int low, int high) {
-        if (low > high) {
-            return null;
-        }
-        int mid = low + (high - low) / 2;
-        TreeNode newNode = new TreeNode(num[mid]);
-        newNode.left = helpers(num, low, mid - 1);
-        newNode.right = helpers(num, mid + 1, high);
-        return newNode;
     }
 
     public List<Integer> boundaryOfBinaryTree(TreeNode root) {
