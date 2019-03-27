@@ -1,4 +1,6 @@
+import java.util.Comparator;
 import java.util.PriorityQueue;
+import java.util.Queue;
 
 public class A973_KClosestPointsToOrigin {
     public static void main(String[] args) {
@@ -28,5 +30,27 @@ public class A973_KClosestPointsToOrigin {
             result[i] = pq.poll();
         }
         return result;
+    }
+
+    /** Solution 2 */
+    public int[][] kClosest2(int[][] points, int K) {
+        Queue<int[]> qu = new PriorityQueue<>(new Comparator<int[]>() {
+            @Override
+            public int compare(int[] a, int[] b) {
+                return a[0] * a[0] - b[0] * b[0] + a[1] * a[1] - b[1] * b[1];
+            }
+        });
+
+        for (int[] point : points) {
+            qu.offer(point);
+        }
+
+        int[][] res = new int[K][2];
+        for (int i = 0; i < K; i++) {
+            int[] tmp = qu.poll();
+            res[i][0] = tmp[0];
+            res[i][1] = tmp[1];
+        }
+        return res;
     }
 }

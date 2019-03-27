@@ -14,6 +14,9 @@ public class A540_SingleElementInASortedArray {
         int left = 0, right = nums.length - 1;
         while (left < right) {
             int mid = (left + right) / 2;
+
+            // odd mid: 001 1 223 -> need to do mid-- to compare two consecutive numbers in the mid
+            // even mid: 0011 2 2334
             if (mid % 2 == 1) {
                 mid--;
             }
