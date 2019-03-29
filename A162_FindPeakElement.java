@@ -6,6 +6,7 @@ public class A162_FindPeakElement {
         System.out.println(myResult);
     }
 
+    /** always compare two adjacent values to decide monotonic property. eg: mid and mid + 1 */
     public int findPeakElement(int[] nums) {
         if (nums.length < 2) {
             return 0;
