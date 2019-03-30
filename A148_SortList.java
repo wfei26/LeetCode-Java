@@ -18,6 +18,8 @@ public class A148_SortList {
         return dummy.next;
     }
 
+    /** use merge sort (divide and conquer) to sort list: use slow and fast pointer to find middle node, and then
+     * recursively divide current two list into smaller parts */
     public ListNode sortList(ListNode head) {
         if (head == null || head.next == null) {
             return head;
@@ -31,13 +33,16 @@ public class A148_SortList {
             prevPtr = slowPtr;
             slowPtr = slowPtr.next;
         }
+        // WARNING: DO NOT FORGET to set next pointer of middle pointer to null, otherwise, it may generate cyclic list
         prevPtr.next = null;
 
+        // recursively divide list into two parts and conquer each part
         ListNode l1 = sortList(head);
         ListNode l2 = sortList(slowPtr);
         return merge(l1, l2);
     }
 
+    /** merge two sorted list */
     public ListNode merge(ListNode l1, ListNode l2) {
         if (l1 == null) {
             return l2;
