@@ -3,7 +3,7 @@ import java.util.Stack;
 
 public class A341_FlattenNestedListIterator {
     public static void main(String[] args) {
-        A341_FlattenNestedListIterator solution = new A341_FlattenNestedListIterator();
+        //A341_FlattenNestedListIterator solution = new A341_FlattenNestedListIterator();
     }
 
     /** use stack to do a pre-processing, store all elements if input from last to first. We add elements reversely is
