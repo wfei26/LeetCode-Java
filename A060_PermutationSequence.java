@@ -3,6 +3,8 @@ import java.util.LinkedList;
 public class A060_PermutationSequence {
     public static void main(String[] args) {
         A060_PermutationSequence solution = new A060_PermutationSequence();
+        String res = solution.getPermutation(5, 3);
+        System.out.println(res);
     }
 
     public String getPermutation(int n, int k) {
